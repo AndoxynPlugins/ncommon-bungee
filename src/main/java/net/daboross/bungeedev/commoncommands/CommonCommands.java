@@ -34,6 +34,7 @@ public final class CommonCommands extends Plugin {
         pm.registerCommand(this, new ListCommand());
         pm.registerCommand(this, new WCommand());
         pm.registerCommand(this, new WICommand());
+        pm.registerListener(this, new PlayerListener());
     }
 
     @Override
