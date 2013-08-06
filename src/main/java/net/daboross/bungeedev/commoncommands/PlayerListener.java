@@ -17,20 +17,25 @@ import net.md_5.bungee.event.EventHandler;
  */
 public class PlayerListener implements Listener {
 
+    public static final String JOIN_FORMAT = ChatColor.BLUE + "%s" + ChatColor.YELLOW + " has joined.";
+    public static final String LEAVE_FORMAT = ChatColor.BLUE + "%s" + ChatColor.YELLOW + " has left.";
+
     @EventHandler
     public void onJoin(PostLoginEvent evt) {
+        String message = String.format(JOIN_FORMAT, evt.getPlayer().getDisplayName());
         for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
             if (!p.equals(evt.getPlayer())) {
-                p.sendMessage(ChatColor.BLUE + p.getDisplayName() + ChatColor.YELLOW + " has joined.");
+                p.sendMessage(message);
             }
         }
     }
 
     @EventHandler
     public void onQuit(PlayerDisconnectEvent evt) {
+        String message = String.format(LEAVE_FORMAT, evt.getPlayer().getDisplayName());
         for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
             if (!p.equals(evt.getPlayer())) {
-                p.sendMessage(ChatColor.BLUE + p.getDisplayName() + ChatColor.YELLOW + " has left.");
+                p.sendMessage(message);
             }
         }
     }
