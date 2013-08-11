@@ -5,6 +5,12 @@
     <packaging>jar</packaging>
     <version>1.0.0</version>
     <name>CommonCommandsBungee</name>
+    <repositories>
+        <repository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
     <build>
         <finalName>${project.name}</finalName>
         <resources>
