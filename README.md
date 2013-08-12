@@ -1,2 +1,4 @@
-CommonCommands-Bungee
-=====================
+CommonCommandsBungee
+====================
+
+Common Commands for BungeeCord
