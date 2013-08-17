@@ -1,14 +1,14 @@
 /*
  * Copyright (C) 2013 Dabo Ross <www.daboross.net>
  */
-package net.daboross.bungeedev.commoncommands.commands;
+package net.daboross.bungeedev.ncommon.commands;
 
-import net.daboross.bungeedev.commoncommands.ColorList;
+import net.daboross.bungeedev.ncommon.ColorList;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.plugin.Command;
 
 /**
@@ -41,11 +41,11 @@ public class WICommand extends Command {
             sender.sendMessage(ColorList.REG + "Usage: " + ColorList.CMD + "/wi" + ColorList.ARGS_SURROUNDER + " <" + ColorList.ARGS + "Player" + ColorList.ARGS_SURROUNDER + ">");
             return;
         }
-        Server targetServer = player.getServer();
-        if (((sender instanceof ProxiedPlayer) && targetServer.equals(((ProxiedPlayer) sender).getServer()))) {
+        ServerInfo targetServer = player.getServer().getInfo();
+        if (((sender instanceof ProxiedPlayer) && targetServer.equals(((ProxiedPlayer) sender).getServer().getInfo()))) {
             ((ProxiedPlayer) sender).chat("/wi " + player.getName());
         } else {
-            sender.sendMessage(ColorList.REG + "Server: " + targetServer.getInfo().getName());
+            sender.sendMessage(ColorList.NAME + player.getName() + ColorList.REG + ": " + ColorList.DATA + targetServer.getName());
         }
     }
 }

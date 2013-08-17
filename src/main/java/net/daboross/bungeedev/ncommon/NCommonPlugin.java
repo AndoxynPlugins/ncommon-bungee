@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.daboross.bungeedev.commoncommands;
+package net.daboross.bungeedev.ncommon;
 
-import net.daboross.bungeedev.commoncommands.commands.ListCommand;
-import net.daboross.bungeedev.commoncommands.commands.WCommand;
-import net.daboross.bungeedev.commoncommands.commands.WICommand;
+import net.daboross.bungeedev.ncommon.commands.ListCommand;
+import net.daboross.bungeedev.ncommon.commands.WCommand;
+import net.daboross.bungeedev.ncommon.commands.WICommand;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 
@@ -26,7 +26,7 @@ import net.md_5.bungee.api.plugin.PluginManager;
  *
  * @author daboross
  */
-public final class CommonCommands extends Plugin {
+public final class NCommonPlugin extends Plugin {
 
     @Override
     public void onEnable() {

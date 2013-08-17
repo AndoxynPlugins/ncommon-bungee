@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2013 Dabo Ross <www.daboross.net>
  */
-package net.daboross.bungeedev.commoncommands.commands;
+package net.daboross.bungeedev.ncommon.commands;
 
-import net.daboross.bungeedev.commoncommands.ColorList;
+import net.daboross.bungeedev.ncommon.ColorList;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
