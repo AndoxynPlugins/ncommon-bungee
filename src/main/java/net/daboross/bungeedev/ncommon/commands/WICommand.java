@@ -16,11 +16,11 @@ import net.md_5.bungee.api.plugin.Command;
  * @author daboross
  */
 public class WICommand extends Command {
-    
+
     public WICommand() {
         super("wi");
     }
-    
+
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args.length == 0) {
