@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2013 Dabo Ross <www.daboross.net>
  */
-package net.daboross.bungeedev.ncommon;
+package net.daboross.bungeedev.ncommon.listeners;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
