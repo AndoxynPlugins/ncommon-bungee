@@ -35,7 +35,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onJoin(PostLoginEvent evt) {
-        String message = String.format(JOIN_FORMAT, evt.getPlayer().getDisplayName());
+        String message = String.format(JOIN_FORMAT, evt.getPlayer().getName());
         for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
             if (!p.equals(evt.getPlayer())) {
                 p.sendMessage(message);
@@ -45,7 +45,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerDisconnectEvent evt) {
-        String message = String.format(LEAVE_FORMAT, evt.getPlayer().getDisplayName());
+        String message = String.format(LEAVE_FORMAT, evt.getPlayer().getName());
         for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
             if (!p.equals(evt.getPlayer())) {
                 p.sendMessage(message);
