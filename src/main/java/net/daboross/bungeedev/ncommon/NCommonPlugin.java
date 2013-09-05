@@ -18,6 +18,7 @@ package net.daboross.bungeedev.ncommon;
 
 import net.daboross.bungeedev.ncommon.listeners.PlayerListener;
 import net.daboross.bungeedev.ncommon.commands.ListCommand;
+import net.daboross.bungeedev.ncommon.commands.LsCommand;
 import net.daboross.bungeedev.ncommon.commands.WCommand;
 import net.daboross.bungeedev.ncommon.commands.WICommand;
 import net.daboross.bungeedev.ncommon.listeners.PluginMessagingStop;
@@ -33,9 +34,11 @@ public final class NCommonPlugin extends Plugin {
     @Override
     public void onEnable() {
         PluginManager pm = getProxy().getPluginManager();
+        getProxy().registerChannel("NCommon");
         pm.registerCommand(this, new ListCommand());
         pm.registerCommand(this, new WCommand());
         pm.registerCommand(this, new WICommand());
+        pm.registerCommand(this, new LsCommand());
         pm.registerListener(this, new PlayerListener());
         pm.registerListener(this, new PluginMessagingStop());
     }
