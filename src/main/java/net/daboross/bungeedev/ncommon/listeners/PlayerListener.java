@@ -23,6 +23,7 @@ import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
 
 /**
  *
@@ -33,7 +34,7 @@ public class PlayerListener implements Listener {
     public static final String JOIN_FORMAT = ChatColor.BLUE + "%s" + ChatColor.YELLOW + " has joined.";
     public static final String LEAVE_FORMAT = ChatColor.BLUE + "%s" + ChatColor.YELLOW + " has left.";
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PostLoginEvent evt) {
         String message = String.format(JOIN_FORMAT, evt.getPlayer().getName());
         for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
@@ -43,7 +44,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onQuit(PlayerDisconnectEvent evt) {
         String message = String.format(LEAVE_FORMAT, evt.getPlayer().getName());
         for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
