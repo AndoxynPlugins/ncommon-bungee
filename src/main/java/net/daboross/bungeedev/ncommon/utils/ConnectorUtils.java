@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
+import lombok.NonNull;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.Server;
@@ -32,18 +33,15 @@ import net.md_5.bungee.api.connection.Server;
  */
 public class ConnectorUtils {
 
-    public static void setDisplayName(Server server, String name) {
-        if (server == null) {
-            throw new IllegalArgumentException("server == null");
-        }
+    public static void setDisplayName(@NonNull Server server, @NonNull String name) {
         sendMessageServer(server, "SetDisplayName", name);
     }
 
-    public static void consoleMessage(String message) {
+    public static void consoleMessage(@NonNull String message) {
         sendMessage("ConsoleMessage", message);
     }
 
-    public static void sendWithPermission(String permission, String message, String... excludes) {
+    public static void sendWithPermission(@NonNull String permission, @NonNull String message, @NonNull String... excludes) {
         byte[] data;
         try {
             ByteArrayOutputStream b = new ByteArrayOutputStream();
