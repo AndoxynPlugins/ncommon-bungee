@@ -21,7 +21,6 @@ import net.daboross.bungeedev.ncommon.commands.ListCommand;
 import net.daboross.bungeedev.ncommon.commands.LsCommand;
 import net.daboross.bungeedev.ncommon.commands.WCommand;
 import net.daboross.bungeedev.ncommon.commands.WICommand;
-import net.daboross.bungeedev.ncommon.listeners.PluginMessagingStop;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 
@@ -40,7 +39,6 @@ public final class NCommonPlugin extends Plugin {
         pm.registerCommand(this, new WICommand());
         pm.registerCommand(this, new LsCommand());
         pm.registerListener(this, new PlayerListener());
-        pm.registerListener(this, new PluginMessagingStop());
     }
 
     @Override
