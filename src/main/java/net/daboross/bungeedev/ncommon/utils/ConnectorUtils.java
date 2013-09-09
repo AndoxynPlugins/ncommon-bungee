@@ -37,7 +37,7 @@ public class ConnectorUtils {
     }
 
     public static void consoleMessage(@NonNull String message) {
-        sendMessage("ConsoleMessage", message);
+        sendMessage(false, "ConsoleMessage", message);
     }
 
     public static void sendWithPermission(@NonNull String permission, @NonNull String message, @NonNull String... excludes) {
@@ -65,7 +65,7 @@ public class ConnectorUtils {
         }
     }
 
-    private static void sendMessage(String... message) {
+    private static void sendMessage(boolean sendToNoPlayers, String... message) {
         byte[] data;
         try {
             ByteArrayOutputStream b = new ByteArrayOutputStream();
@@ -79,8 +79,16 @@ public class ConnectorUtils {
             ProxyServer.getInstance().getLogger().log(Level.SEVERE, "Error writing data to byte array", ex);
             return;
         }
-        for (Map.Entry<String, ServerInfo> server : ProxyServer.getInstance().getServers().entrySet()) {
-            server.getValue().sendData("NCommon", data);
+        if (sendToNoPlayers) {
+            for (Map.Entry<String, ServerInfo> server : ProxyServer.getInstance().getServers().entrySet()) {
+                server.getValue().sendData("NCommon", data);
+            }
+        } else {
+            for (Map.Entry<String, ServerInfo> server : ProxyServer.getInstance().getServers().entrySet()) {
+                if (!server.getValue().getPlayers().isEmpty()) {
+                    server.getValue().sendData("NCommon", data);
+                }
+            }
         }
     }
 
