@@ -16,6 +16,7 @@
  */
 package net.daboross.bungeedev.ncommon.listeners;
 
+import net.daboross.bungeedev.ncommon.motd.MOTDConfig;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -33,14 +34,21 @@ public class PlayerListener implements Listener {
 
     public static final String JOIN_FORMAT = ChatColor.BLUE + "%s" + ChatColor.YELLOW + " has joined.";
     public static final String LEAVE_FORMAT = ChatColor.BLUE + "%s" + ChatColor.YELLOW + " has left.";
+    private final MOTDConfig motd;
+
+    public PlayerListener(MOTDConfig motd) {
+        this.motd = motd;
+    }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PostLoginEvent evt) {
         String message = String.format(JOIN_FORMAT, evt.getPlayer().getName());
         for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
-            if (!p.equals(evt.getPlayer())) {
-                p.sendMessage(message);
-            }
+            p.sendMessage(message);
+        }
+        ProxiedPlayer p = evt.getPlayer();
+        for (String line : motd.getConfig()) {
+            p.sendMessage(line);
         }
     }
 
