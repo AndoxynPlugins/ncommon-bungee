@@ -16,6 +16,7 @@
  */
 package net.daboross.bungeedev.ncommon.listeners;
 
+import net.daboross.bungeedev.ncommon.ColorList;
 import net.daboross.bungeedev.ncommon.motd.MOTDConfig;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
@@ -32,8 +33,8 @@ import net.md_5.bungee.event.EventPriority;
  */
 public class PlayerListener implements Listener {
 
-    public static final String JOIN_FORMAT = ChatColor.BLUE + "%s" + ChatColor.YELLOW + " has joined.";
-    public static final String LEAVE_FORMAT = ChatColor.BLUE + "%s" + ChatColor.YELLOW + " has left.";
+    public static final String JOIN_FORMAT = ColorList.PREFIX_Q + "%s" + ChatColor.GRAY + " joined";
+    public static final String LEAVE_FORMAT = ColorList.PREFIX_Q + "%s" + ChatColor.GRAY + " left";
     private final MOTDConfig motd;
 
     public PlayerListener(MOTDConfig motd) {

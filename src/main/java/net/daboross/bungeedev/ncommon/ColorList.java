@@ -99,9 +99,5 @@ public final class ColorList {
      * This is the color that broadcasts should be.
      */
     public static final String BROADCAST = ChatColor.GREEN.toString();
-    /**
-     * Broadcast name for use with String.format(). Takes the broadcaster's name
-     * as an argument.
-     */
-    public static final String BROADCAST_NAME_FORMAT = ChatColor.DARK_GRAY + "[" + ChatColor.RED + "%s" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY;
+    public static final String PREFIX_Q = ChatColor.DARK_GRAY + "[" + ChatColor.DARK_RED + "?" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY;
 }
