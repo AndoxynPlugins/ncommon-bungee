@@ -42,7 +42,7 @@ public final class NCommonPlugin extends Plugin {
         pm.registerCommand(this, new WCommand());
         pm.registerCommand(this, new WICommand());
         pm.registerCommand(this, new LsCommand());
-        pm.registerListener(this, new PlayerListener(motd));
+        pm.registerListener(this, new PlayerListener(getProxy(), motd));
     }
 
     @Override
