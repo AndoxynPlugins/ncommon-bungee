@@ -44,8 +44,8 @@ public class LsCommand extends Command {
         int maxServerLength = 0;
         int maxNameLength = 0;
         for (ProxiedPlayer player : onlinePlayers) {
-            maxNameLength = Math.max(maxNameLength, player.getName().length());
-            maxServerLength = Math.max(maxServerLength, player.getServer().getInfo().getName().length());
+            maxNameLength = Math.max(maxNameLength, (player == null ? "null" : player.getName()).length());
+            maxServerLength = Math.max(maxServerLength, (player == null ? "null" : player.getServer().getInfo().getName()).length());
         }
         for (ProxiedPlayer player : onlinePlayers) {
             sender.sendMessage(getLine(player, maxNameLength + 2, maxServerLength + 2));
@@ -53,9 +53,11 @@ public class LsCommand extends Command {
     }
 
     private String getLine(ProxiedPlayer player, int maxNameLength, int maxServerLength) {
-        String name = player.getName();
-        String server = player.getServer().getInfo().getName();
-        return ChatColor.WHITE + name + fillIn(maxNameLength - name.length()) + ChatColor.YELLOW + server + fillIn(maxServerLength - server.length()) + player.getDisplayName();
+        String name = player == null ? "null" : player.getName();
+        String server = player == null ? "null" : player.getServer().getInfo().getName();
+        return ChatColor.WHITE + name + fillIn(maxNameLength - name.length())
+                + ChatColor.YELLOW + server + fillIn(maxServerLength - server.length())
+                + (player == null ? "null" : player.getDisplayName());
     }
 
     private String fillIn(int num) {
