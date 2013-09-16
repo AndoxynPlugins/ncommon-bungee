@@ -30,7 +30,6 @@ import net.md_5.bungee.event.EventPriority;
 
 /**
  *
- * @author daboross
  */
 public class PlayerListener implements Listener {
 

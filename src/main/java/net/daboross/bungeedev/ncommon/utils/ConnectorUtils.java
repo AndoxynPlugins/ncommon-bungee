@@ -28,7 +28,6 @@ import net.md_5.bungee.api.connection.Server;
 
 /**
  *
- * @author daboross
  */
 public class ConnectorUtils {
 

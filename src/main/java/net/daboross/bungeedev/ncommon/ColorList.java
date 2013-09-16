@@ -21,8 +21,6 @@ import net.md_5.bungee.api.ChatColor;
 /**
  * This is a class that holds what colors PlayerData should user for different
  * purpose.
- *
- * @author daboross
  */
 public final class ColorList {
 

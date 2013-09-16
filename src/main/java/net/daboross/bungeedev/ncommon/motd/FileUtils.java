@@ -26,7 +26,6 @@ import net.md_5.bungee.api.plugin.Plugin;
 
 /**
  *
- * @author daboross
  */
 public class FileUtils {
 

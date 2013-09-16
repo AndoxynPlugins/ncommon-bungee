@@ -16,18 +16,18 @@
  */
 package net.daboross.bungeedev.ncommon;
 
+import java.util.HashMap;
+import java.util.Map;
+import org.json.JSONObject;
+
 /**
  *
  */
-public class NStatics {
+public class NCommonStorage {
 
-    private static NCommonPlugin plugin;
+    private final Map<String, JSONObject> players;
 
-    public static NCommonPlugin getPlugin() {
-        return plugin;
-    }
-
-    static void setPlugin(NCommonPlugin plugin) {
-        NStatics.plugin = plugin;
+    public NCommonStorage() {
+        players = new HashMap<>();
     }
 }

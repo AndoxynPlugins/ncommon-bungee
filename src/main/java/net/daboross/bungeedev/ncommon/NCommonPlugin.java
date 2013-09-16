@@ -27,7 +27,6 @@ import net.md_5.bungee.api.plugin.PluginManager;
 
 /**
  *
- * @author daboross
  */
 public final class NCommonPlugin extends Plugin {
 
