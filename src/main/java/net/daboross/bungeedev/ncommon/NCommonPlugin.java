@@ -16,27 +16,37 @@
  */
 package net.daboross.bungeedev.ncommon;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.daboross.bungeedev.ncommon.commands.ConfigCommand;
 import net.daboross.bungeedev.ncommon.listeners.PlayerListener;
 import net.daboross.bungeedev.ncommon.commands.ListCommand;
 import net.daboross.bungeedev.ncommon.commands.LsCommand;
 import net.daboross.bungeedev.ncommon.commands.WCommand;
 import net.daboross.bungeedev.ncommon.commands.WICommand;
+import net.daboross.bungeedev.ncommon.config.SharedConfig;
 import net.daboross.bungeedev.ncommon.motd.MOTDConfig;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 
-/**
- *
- */
 public final class NCommonPlugin extends Plugin {
 
     private MOTDConfig motd;
+    private SharedConfig config;
 
     @Override
     public void onEnable() {
         motd = new MOTDConfig(this);
         PluginManager pm = getProxy().getPluginManager();
         getProxy().registerChannel("NCommon");
+        try {
+            config = new SharedConfig(this);
+        } catch (IOException ex) {
+            getLogger().log(Level.SEVERE, "SharedConfig", ex);
+            return;
+        }
+        pm.registerCommand(this, new ConfigCommand(config));
         pm.registerCommand(this, new ListCommand());
         pm.registerCommand(this, new WCommand());
         pm.registerCommand(this, new WICommand());
@@ -46,9 +56,18 @@ public final class NCommonPlugin extends Plugin {
 
     @Override
     public void onDisable() {
+        try {
+            config.save();
+        } catch (IOException ex) {
+            getLogger().log(Level.SEVERE, "SharedConfig", ex);
+        }
     }
 
     public MOTDConfig getMotd() {
         return motd;
+    }
+
+    public SharedConfig config() {
+        return config;
     }
 }

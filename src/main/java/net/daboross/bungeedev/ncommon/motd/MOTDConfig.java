@@ -30,8 +30,8 @@ import net.md_5.bungee.api.ChatColor;
 public class MOTDConfig {
 
     private final FileUtils fileUtils;
-    private File configFile;
-    private List<String> config;
+    private final File configFile;
+    private final List<String> config;
 
     public MOTDConfig(NCommonPlugin plugin) {
         this.fileUtils = new FileUtils(plugin);

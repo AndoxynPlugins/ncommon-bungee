@@ -3,7 +3,7 @@
 
     <groupId>net.daboross.bungeedev</groupId>
     <artifactId>ncommon-bungee</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>NCommonBungee</name>
@@ -32,15 +32,25 @@
         <developerConnection>scm:git:git@github.com:daboross/ncommon-bungee.git</developerConnection>
     </scm>
     <properties>
-        <netbeans.hint.license>gpl3</netbeans.hint.license>
+        <netbeans.hint.license>gpl30</netbeans.hint.license>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+        <repository>
+            <id>repo-daboross-net</id>
+            <url>http://repo.daboross.net/</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>net.md-5</groupId>
             <artifactId>bungeecord-api</artifactId>
-            <version>1.6.2-SNAPSHOT</version>
+            <version>1.7-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -52,26 +62,16 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>0.12.0</version>
+            <version>1.12.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.json</groupId>
+            <groupId>net.daboross.json</groupId>
             <artifactId>json</artifactId>
-            <version>20090211</version>
+            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </repository>
-        <repository>
-            <id>repo-daboross-net</id>
-            <url>http://repo.daboross.net/</url>
-        </repository>
-    </repositories>
 
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -104,13 +104,6 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                        <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>org.json:json</include>
-                                </includes>
-                            </artifactSet>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
