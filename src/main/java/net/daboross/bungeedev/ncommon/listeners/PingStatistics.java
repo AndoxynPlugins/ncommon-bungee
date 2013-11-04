@@ -39,8 +39,8 @@ public class PingStatistics extends Command implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPing(ProxyPingEvent evt) {
-        InetSocketAddress fromNet = evt.getConnection().getVirtualHost();
-        InetSocketAddress toNet = evt.getConnection().getAddress();
+        InetSocketAddress fromNet = evt.getConnection().getAddress();
+        InetSocketAddress toNet = evt.getConnection().getVirtualHost();
         String from = fromNet == null ? null : fromNet.getHostString();
         String to = toNet == null ? null : toNet.getHostString();
         if (from != null && to != null) {
@@ -56,7 +56,7 @@ public class PingStatistics extends Command implements Listener {
     }
 
     private void senderUniquePings(String from, String to) {
-        JSONObject uniqueSenders = config.getObject("ping-stats.unique-senders");
+        JSONObject uniqueSenders = config.getObject("ping-stats.unique-users");
         JSONObject uniqueSender = getJsonObject(uniqueSenders, from);
         uniqueSender.put(to, uniqueSender.optInt(to) + 1);
 
@@ -68,7 +68,7 @@ public class PingStatistics extends Command implements Listener {
             sender.sendMessage(ChatColor.RED + "You don't have permission.");
             return;
         }
-        if (args.length < 1 || !(args[0].equalsIgnoreCase("hosts") || args[0].equalsIgnoreCase("senders"))) {
+        if (args.length < 1 || !(args[0].equalsIgnoreCase("hosts") || args[0].equalsIgnoreCase("users"))) {
             sender.sendMessage(ChatColor.GREEN + "Choose " + ChatColor.DARK_RED + "hosts" + ChatColor.GREEN + " or " + ChatColor.DARK_RED + "senders" + ChatColor.GREEN + ".");
             return;
         }
@@ -81,8 +81,8 @@ public class PingStatistics extends Command implements Listener {
             for (String key : uniqueHosts.keySet()) {
                 sender.sendMessage(ChatColor.DARK_RED + key + ChatColor.GREEN + ":\n" + uniqueHosts.getJSONObject(key).toString(2));
             }
-        } else if (args[0].equals("senders")) {
-            JSONObject uniqueSenders = config.getObject("ping-stats.unique-senders");
+        } else if (args[0].equals("users")) {
+            JSONObject uniqueSenders = config.getObject("ping-stats.unique-users");
             for (String key : uniqueSenders.keySet()) {
                 sender.sendMessage(ChatColor.DARK_RED + key + ChatColor.GREEN + ":\n" + uniqueSenders.getJSONObject(key).toString(2));
             }
