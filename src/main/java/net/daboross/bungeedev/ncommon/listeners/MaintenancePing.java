@@ -26,8 +26,11 @@ public class MaintenancePing implements Listener {
 
     @EventHandler
     public void onLogin(LoginEvent evt) {
-        evt.setCancelled(true);
-        evt.setCancelReason(config.getString("maintenance.kick", KICK));
+        String maintenanceKick = config.getString("maintenance.kick", KICK);
+        if (maintenanceKick != null) {
+            evt.setCancelled(true);
+            evt.setCancelReason(config.getString("maintenance.kick", KICK));
+        }
     }
 
     @EventHandler

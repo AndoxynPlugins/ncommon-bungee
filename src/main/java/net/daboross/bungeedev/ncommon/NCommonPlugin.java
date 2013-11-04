@@ -18,7 +18,6 @@ package net.daboross.bungeedev.ncommon;
 
 import java.io.IOException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.daboross.bungeedev.ncommon.commands.ConfigCommand;
 import net.daboross.bungeedev.ncommon.listeners.PlayerListener;
 import net.daboross.bungeedev.ncommon.commands.ListCommand;
@@ -27,6 +26,7 @@ import net.daboross.bungeedev.ncommon.commands.WCommand;
 import net.daboross.bungeedev.ncommon.commands.WICommand;
 import net.daboross.bungeedev.ncommon.config.SharedConfig;
 import net.daboross.bungeedev.ncommon.listeners.MaintenancePing;
+import net.daboross.bungeedev.ncommon.listeners.PingStatistics;
 import net.daboross.bungeedev.ncommon.motd.MOTDConfig;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
@@ -54,6 +54,9 @@ public final class NCommonPlugin extends Plugin {
         pm.registerCommand(this, new LsCommand());
         pm.registerListener(this, new PlayerListener(getProxy(), motd));
         pm.registerListener(this, new MaintenancePing(config));
+        PingStatistics stats = new PingStatistics(config);
+        pm.registerCommand(this, stats);
+        pm.registerListener(this, stats);
     }
 
     @Override

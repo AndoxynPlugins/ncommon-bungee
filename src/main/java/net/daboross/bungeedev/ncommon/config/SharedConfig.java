@@ -121,6 +121,16 @@ public class SharedConfig {
         }
     }
 
+    public JSONObject getObject(String key) {
+        try {
+            return config.getJSONObject(key);
+        } catch (JSONException ex) {
+            JSONObject obj = new JSONObject();
+            config.put(key, obj);
+            return obj;
+        }
+    }
+
     public void set(String key, String value) {
         config.put(key, ChatColor.translateAlternateColorCodes('&', value.replace("\\n", "\n")));
     }
