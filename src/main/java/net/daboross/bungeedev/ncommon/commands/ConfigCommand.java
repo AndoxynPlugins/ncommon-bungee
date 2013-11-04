@@ -39,10 +39,12 @@ public class ConfigCommand extends Command {
         }
         if (args.length == 1 && args[0].equals("list")) {
             sender.sendMessages("ping.players", "ping.version", "ping.maintenance", "ping.ping1", "ping.ping2");
+            return;
         }
         if (args.length < 2) {
             sender.sendMessage(ColorList.ERR + "Not enough arguments.");
             sender.sendMessage(ColorList.CMD + "/config " + ColorList.ARGS + "<Key> <Value>");
+            return;
         }
         if (args.length > 2) {
             config.getConfig().put(args[0], Arrays.asList(Arrays.copyOfRange(args, 1, args.length)));

@@ -35,7 +35,7 @@ public class SharedConfig {
 
     public SharedConfig(Plugin p) throws IOException {
         configFile = new File(p.getDataFolder(), "shared-config.json");
-        if (configFile == null) {
+        if (!configFile.exists()) {
             config = new JSONObject();
         } else {
             try (FileInputStream fileInputStream = new FileInputStream(configFile)) {
@@ -45,6 +45,12 @@ public class SharedConfig {
     }
 
     public void save() throws IOException {
+        if (!configFile.getParentFile().exists()) {
+            configFile.getParentFile().mkdirs();
+        }
+        if (!configFile.exists()) {
+            configFile.createNewFile();
+        }
         try (FileOutputStream fos = new FileOutputStream(configFile)) {
             try (OutputStreamWriter writer = new OutputStreamWriter(fos, Charset.forName("UTF-8"))) {
                 config.write(writer);
