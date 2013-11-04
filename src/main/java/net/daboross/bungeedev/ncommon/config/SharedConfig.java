@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,6 +67,7 @@ public class SharedConfig {
         try {
             return config.getString(key);
         } catch (JSONException ex) {
+            config.put(key, def);
             return def;
         }
     }
@@ -78,6 +80,7 @@ public class SharedConfig {
         try {
             return config.getInt(key);
         } catch (JSONException ex) {
+            config.put(key, def);
             return def;
         }
     }
@@ -90,6 +93,7 @@ public class SharedConfig {
         try {
             return config.getDouble(key);
         } catch (JSONException ex) {
+            config.put(key, def);
             return def;
         }
     }
@@ -102,6 +106,7 @@ public class SharedConfig {
         try {
             return config.getBoolean(key);
         } catch (JSONException ex) {
+            config.put(key, def);
             return def;
         }
     }
@@ -114,6 +119,10 @@ public class SharedConfig {
             config.put(key, array);
             return array;
         }
+    }
+
+    public void set(String key, String value) {
+        config.put(key, ChatColor.translateAlternateColorCodes('&', value.replace("\\n", "\n")));
     }
 
     public JSONObject getConfig() {

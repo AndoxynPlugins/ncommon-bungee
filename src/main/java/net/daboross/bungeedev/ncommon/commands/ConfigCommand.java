@@ -38,7 +38,7 @@ public class ConfigCommand extends Command {
             return;
         }
         if (args.length == 1 && args[0].equals("list")) {
-            sender.sendMessages("ping.players", "ping.version", "ping.maintenance", "ping.ping1", "ping.ping2");
+            sender.sendMessages("ping.players", "ping.version", "ping.maintenance", "ping.ping1", "ping.ping2", "maintenance.kick", "ping.notusingnlmc");
             return;
         }
         if (args.length < 2) {
@@ -47,9 +47,17 @@ public class ConfigCommand extends Command {
             return;
         }
         if (args.length > 2) {
-            config.getConfig().put(args[0], Arrays.asList(Arrays.copyOfRange(args, 1, args.length)));
+            config.set(args[0], joinArgs(args));
         } else {
-            config.getConfig().put(args[0], args[1]);
+            config.set(args[0], args[1]);
         }
+    }
+
+    private String joinArgs(String[] args) {
+        StringBuilder b = new StringBuilder(args[1]);
+        for (int i = 2; i < args.length; i++) {
+            b.append(" ").append(args[i]);
+        }
+        return b.toString();
     }
 }

@@ -6,7 +6,7 @@
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>NCommonBungee</name>
+    <name>ncommon</name>
     <description>NCommon BungeeCord plugin</description>
     <url>https://github.com/daboross/ncommon-bungee</url>
     <inceptionYear>2013</inceptionYear>
@@ -74,7 +74,7 @@
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>${project.name}</finalName>
         <defaultGoal>clean package</defaultGoal>
         <resources>
             <resource>

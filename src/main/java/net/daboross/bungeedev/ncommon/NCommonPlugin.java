@@ -26,6 +26,7 @@ import net.daboross.bungeedev.ncommon.commands.LsCommand;
 import net.daboross.bungeedev.ncommon.commands.WCommand;
 import net.daboross.bungeedev.ncommon.commands.WICommand;
 import net.daboross.bungeedev.ncommon.config.SharedConfig;
+import net.daboross.bungeedev.ncommon.listeners.MaintenancePing;
 import net.daboross.bungeedev.ncommon.motd.MOTDConfig;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
@@ -52,6 +53,7 @@ public final class NCommonPlugin extends Plugin {
         pm.registerCommand(this, new WICommand());
         pm.registerCommand(this, new LsCommand());
         pm.registerListener(this, new PlayerListener(getProxy(), motd));
+        pm.registerListener(this, new MaintenancePing(config));
     }
 
     @Override
