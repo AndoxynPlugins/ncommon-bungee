@@ -54,7 +54,7 @@ public class SharedConfig {
         }
         try (FileOutputStream fos = new FileOutputStream(configFile)) {
             try (OutputStreamWriter writer = new OutputStreamWriter(fos, Charset.forName("UTF-8"))) {
-                config.write(writer);
+                config.write(writer, 2, 0);
             }
         }
     }
