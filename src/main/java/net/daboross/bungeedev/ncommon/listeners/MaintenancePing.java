@@ -35,7 +35,7 @@ public class MaintenancePing implements Listener {
     @EventHandler
     public void onPing(ProxyPingEvent evt) {
         ServerPing ping = evt.getResponse();
-        ping.setPlayers(new Players(ping.getPlayers().getOnline(), ping.getPlayers().getOnline() * 2 + 1, getPlayers(config.getString("ping.players", "Testing this\nPlayer List\nIs fun").split("\n"))));
+        ping.setPlayers(new Players(ping.getPlayers().getOnline() * 2 + 1, ping.getPlayers().getOnline(), getPlayers(config.getString("ping.players", "Testing this\nPlayer List\nIs fun").split("\n"))));
         String[] descriptions;
         InetSocketAddress hostAddress = evt.getConnection().getVirtualHost();
         String host = hostAddress == null ? null : hostAddress.getHostString();
