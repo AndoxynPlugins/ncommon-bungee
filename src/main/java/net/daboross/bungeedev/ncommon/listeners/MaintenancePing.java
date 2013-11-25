@@ -6,8 +6,10 @@ import java.util.logging.Level;
 import lombok.RequiredArgsConstructor;
 import net.daboross.bungeedev.ncommon.config.SharedConfig;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.NewServerPing;
+import net.md_5.bungee.api.NewServerPing.Players;
+import net.md_5.bungee.api.NewServerPing.Protocol;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.event.EventHandler;
@@ -34,8 +36,8 @@ public class MaintenancePing implements Listener {
 
     @EventHandler
     public void onPing(ProxyPingEvent evt) {
-        ServerPing ping = evt.getResponse();
-        ping.setPlayers(new Players(ping.getPlayers().getOnline() * 2 + 1, ping.getPlayers().getOnline(), getPlayers(config.getString("ping.players", "Testing this\nPlayer List\nIs fun").split("\n"))));
+        NewServerPing ping = evt.getNewResponse();
+        ping.setPlayers(new Players(ping.getPlayers().getOnline() * 2 + 1, ping.getPlayers().getOnline()));
         String[] descriptions;
         InetSocketAddress hostAddress = evt.getConnection().getVirtualHost();
         String host = hostAddress == null ? null : hostAddress.getHostString();
@@ -51,13 +53,5 @@ public class MaintenancePing implements Listener {
         String description = descriptions[r.nextInt(descriptions.length)];
         ProxyServer.getInstance().getLogger().log(Level.INFO, String.format(FORMAT, evt.getConnection().getAddress().getHostString(), host, description));
         ping.setDescription(description);
-    }
-
-    private PlayerInfo[] getPlayers(String... names) {
-        PlayerInfo[] result = new PlayerInfo[names.length];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = new PlayerInfo(names[i], "");
-        }
-        return result;
     }
 }
