@@ -59,7 +59,7 @@ public class MaintenancePing implements Listener {
             newPing.setDescription(motd);
             newPing.setVersion(new Protocol(version, protocolVersion));
             int online = newPing.getPlayers().getOnline();
-            newPing.setPlayers(new Players(online / 2 + 1, online));
+            newPing.setPlayers(new Players(online / 2 + 1, online, config.getString("ping.players","").split("\n")));
         } else {
             int online = oldPing.getCurrentPlayers();
             evt.setResponse(new ServerPing((byte) protocolVersion, version, motd, online, online * 2 + 1));
