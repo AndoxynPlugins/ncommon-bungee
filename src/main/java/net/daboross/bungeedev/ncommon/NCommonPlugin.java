@@ -19,6 +19,7 @@ package net.daboross.bungeedev.ncommon;
 import java.io.IOException;
 import java.util.logging.Level;
 import lombok.Getter;
+import net.daboross.bungeedev.ncommon.commands.AliasReloadCommand;
 import net.daboross.bungeedev.ncommon.commands.ConfigCommand;
 import net.daboross.bungeedev.ncommon.commands.ListCommand;
 import net.daboross.bungeedev.ncommon.commands.LsCommand;
@@ -63,6 +64,7 @@ public final class NCommonPlugin extends Plugin {
         pm.registerCommand(this, new WCommand());
         pm.registerCommand(this, new WICommand());
         pm.registerCommand(this, new LsCommand());
+        pm.registerCommand(this, new AliasReloadCommand(this));
         pm.registerListener(this, new PlayerListener(this));
         pm.registerListener(this, new MaintenancePing(config));
         PingStatistics stats = new PingStatistics(config);
