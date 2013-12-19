@@ -23,6 +23,7 @@ import net.daboross.bungeedev.ncommon.commands.AliasReloadCommand;
 import net.daboross.bungeedev.ncommon.commands.ConfigCommand;
 import net.daboross.bungeedev.ncommon.commands.ListCommand;
 import net.daboross.bungeedev.ncommon.commands.LsCommand;
+import net.daboross.bungeedev.ncommon.commands.SQLMapTestCommand;
 import net.daboross.bungeedev.ncommon.commands.WCommand;
 import net.daboross.bungeedev.ncommon.commands.WICommand;
 import net.daboross.bungeedev.ncommon.config.AliasConfig;
@@ -64,6 +65,11 @@ public final class NCommonPlugin extends Plugin {
         pm.registerCommand(this, new WICommand());
         pm.registerCommand(this, new LsCommand());
         pm.registerCommand(this, new AliasReloadCommand(this));
+        try {
+            pm.registerCommand(this, new SQLMapTestCommand(this));
+        } catch (Exception ex) {
+            getLogger().log(Level.WARNING, "Couldn't init connection", ex);
+        }
         pm.registerListener(this, new PlayerListener(this));
         pm.registerListener(this, new MaintenancePing(config));
         pm.registerListener(this, aliasConfig);

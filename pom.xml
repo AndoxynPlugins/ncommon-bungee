@@ -67,6 +67,12 @@
             <version>1.0.3</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>net.daboross.bungeedev</groupId>
+            <artifactId>mysql-map-bungee</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
