@@ -21,6 +21,7 @@ import net.daboross.bukkitdev.mysqlmap.SQLDatabaseConnection;
 import net.daboross.bukkitdev.mysqlmap.api.DatabaseConnection;
 import net.daboross.bukkitdev.mysqlmap.api.MapTable;
 import net.daboross.bukkitdev.mysqlmap.api.ResultRunnable;
+import net.daboross.bungeedev.ncommon.ColorList;
 import net.daboross.bungeedev.ncommon.NCommonPlugin;
 import net.daboross.bungeedev.ncommon.config.SharedConfig;
 import net.md_5.bungee.api.ChatColor;
@@ -41,33 +42,37 @@ public class SQLMapTestCommand extends Command {
 
     @Override
     public void execute(final CommandSender sender, final String[] args) {
-        if (args.length < 1) {
-            sender.sendMessage(ChatColor.GREEN + "Usage: /sqltest <set|get> <key> [value]");
+        if (!sender.hasPermission("ncommon.sqltest")) {
+            sender.sendMessage(ColorList.ERR + "You do not have permission to execute this command.");
+            return;
         }
-        switch (args[1]) {
+        if (args.length < 1) {
+            sender.sendMessage(ColorList.ERR + "Usage: " + ColorList.ERR_ARGS + "/sqltest <set|get> <key> [value]");
+        }
+        switch (args[1].toLowerCase()) {
             case "set":
                 if (args.length < 3) {
-                    sender.sendMessage(ChatColor.DARK_RED + "Usage: " + ChatColor.RED + "/sqltest set <key> <value>");
+                    sender.sendMessage(ColorList.ERR + "Usage: " + ColorList.ERR_ARGS + "/sqltest set <key> <value>");
                 }
                 table.set(args[1], args[2], new ResultRunnable<Boolean>() {
                     @Override
                     public void runWithResult(Boolean value) {
                         if (value) {
-                            sender.sendMessage(ChatColor.GREEN + "Set " + ChatColor.DARK_GREEN + args[1] + ChatColor.GREEN + " to " + ChatColor.DARK_GREEN + args[2] + ChatColor.GREEN + ".");
+                            sender.sendMessage(ColorList.REG + "Set " + ColorList.DATA + args[1] + ColorList.REG + " to " + ColorList.DATA + args[2] + ColorList.REG + ".");
                         } else {
-                            sender.sendMessage(ChatColor.DARK_RED + "Failed to set " + ChatColor.RED + args[1] + ChatColor.DARK_RED + " to " + ChatColor.RED + args[2] + ChatColor.DARK_RED + ".");
+                            sender.sendMessage(ColorList.ERR + "Failed to set " + ColorList.ERR_ARGS + args[1] + ColorList.ERR + " to " + ColorList.ERR_ARGS + args[2] + ColorList.ERR + ".");
                         }
                     }
                 });
                 break;
             case "get":
                 if (args.length < 2) {
-                    sender.sendMessage(ChatColor.DARK_RED + "Usage: " + ChatColor.RED + "/sqltest get <key>");
+                    sender.sendMessage(ColorList.ERR + "Usage: " + ColorList.ERR_ARGS + "/sqltest get <key>");
                 }
                 table.get(args[1], new ResultRunnable<String>() {
                     @Override
                     public void runWithResult(String value) {
-                        sender.sendMessage(ChatColor.DARK_GREEN + args[1] + ChatColor.GREEN + " is set to " + ChatColor.DARK_GRAY + value);
+                        sender.sendMessage(ColorList.DATA + args[1] + ColorList.REG + " is set to " + ColorList.DATA + value);
                     }
                 });
                 break;
