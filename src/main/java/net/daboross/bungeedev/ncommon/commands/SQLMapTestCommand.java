@@ -16,8 +16,8 @@
  */
 package net.daboross.bungeedev.ncommon.commands;
 
-import net.daboross.bukkitdev.mysqlmap.api.MapTable;
-import net.daboross.bukkitdev.mysqlmap.api.ResultRunnable;
+import net.daboross.bungeedev.mysqlmap.api.MapTable;
+import net.daboross.bungeedev.mysqlmap.api.ResultRunnable;
 import net.daboross.bungeedev.ncommon.ColorList;
 import net.daboross.bungeedev.ncommon.NCommonPlugin;
 import net.md_5.bungee.api.ChatColor;
