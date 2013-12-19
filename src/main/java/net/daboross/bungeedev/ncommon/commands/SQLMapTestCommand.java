@@ -48,11 +48,13 @@ public class SQLMapTestCommand extends Command {
         }
         if (args.length < 1) {
             sender.sendMessage(ColorList.ERR + "Usage: " + ColorList.ERR_ARGS + "/sqltest <set|get> <key> [value]");
+            return;
         }
-        switch (args[1].toLowerCase()) {
+        switch (args[0].toLowerCase()) {
             case "set":
                 if (args.length < 3) {
                     sender.sendMessage(ColorList.ERR + "Usage: " + ColorList.ERR_ARGS + "/sqltest set <key> <value>");
+                    return;
                 }
                 table.set(args[1], args[2], new ResultRunnable<Boolean>() {
                     @Override
@@ -68,6 +70,7 @@ public class SQLMapTestCommand extends Command {
             case "get":
                 if (args.length < 2) {
                     sender.sendMessage(ColorList.ERR + "Usage: " + ColorList.ERR_ARGS + "/sqltest get <key>");
+                    return;
                 }
                 table.get(args[1], new ResultRunnable<String>() {
                     @Override
