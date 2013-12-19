@@ -81,7 +81,7 @@ public class AliasConfig implements Listener {
     @EventHandler
     public void onChat(ChatEvent e) {
         if (!e.getMessage().startsWith("/")) return;
-        CommandAlias alias = aliases.get(e.getMessage().split(" ", 2)[0].trim().toLowerCase());
+        CommandAlias alias = aliases.get(e.getMessage().split(" ", 2)[0].trim().substring(1).toLowerCase());
         if (alias != null) {
             e.setMessage(alias.getFullReplacement(e.getMessage()));
         }
