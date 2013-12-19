@@ -18,27 +18,38 @@ package net.daboross.bungeedev.ncommon;
 
 import java.io.IOException;
 import java.util.logging.Level;
+import lombok.Getter;
 import net.daboross.bungeedev.ncommon.commands.ConfigCommand;
-import net.daboross.bungeedev.ncommon.listeners.PlayerListener;
 import net.daboross.bungeedev.ncommon.commands.ListCommand;
 import net.daboross.bungeedev.ncommon.commands.LsCommand;
 import net.daboross.bungeedev.ncommon.commands.WCommand;
 import net.daboross.bungeedev.ncommon.commands.WICommand;
+import net.daboross.bungeedev.ncommon.config.AliasConfig;
 import net.daboross.bungeedev.ncommon.config.SharedConfig;
 import net.daboross.bungeedev.ncommon.listeners.MaintenancePing;
 import net.daboross.bungeedev.ncommon.listeners.PingStatistics;
+import net.daboross.bungeedev.ncommon.listeners.PlayerListener;
 import net.daboross.bungeedev.ncommon.motd.MOTDConfig;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 
 public final class NCommonPlugin extends Plugin {
 
+    @Getter
     private MOTDConfig motd;
+    @Getter
     private SharedConfig config;
+    @Getter
+    private AliasConfig aliasConfig;
 
     @Override
     public void onEnable() {
         motd = new MOTDConfig(this);
+        try {
+            aliasConfig = new AliasConfig(this);
+        } catch (IOException ex) {
+            getLogger().log(Level.WARNING, "Faileod to load Aliases", ex);
+        }
         PluginManager pm = getProxy().getPluginManager();
         getProxy().registerChannel("NCommon");
         try {
@@ -52,11 +63,12 @@ public final class NCommonPlugin extends Plugin {
         pm.registerCommand(this, new WCommand());
         pm.registerCommand(this, new WICommand());
         pm.registerCommand(this, new LsCommand());
-        pm.registerListener(this, new PlayerListener(getProxy(), motd));
+        pm.registerListener(this, new PlayerListener(this));
         pm.registerListener(this, new MaintenancePing(config));
         PingStatistics stats = new PingStatistics(config);
         pm.registerCommand(this, stats);
         pm.registerListener(this, stats);
+        pm.registerListener(this, aliasConfig);
     }
 
     @Override
@@ -66,13 +78,5 @@ public final class NCommonPlugin extends Plugin {
         } catch (IOException ex) {
             getLogger().log(Level.SEVERE, "SharedConfig", ex);
         }
-    }
-
-    public MOTDConfig getMotd() {
-        return motd;
-    }
-
-    public SharedConfig config() {
-        return config;
     }
 }

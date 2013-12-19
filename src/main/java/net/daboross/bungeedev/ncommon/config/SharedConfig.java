@@ -25,7 +25,6 @@ import java.nio.charset.Charset;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -60,75 +59,53 @@ public class SharedConfig {
     }
 
     public String getString(String key) {
-        return getString(key, null);
+        return config.optString(key);
     }
 
     public String getString(String key, String def) {
-        try {
-            return config.getString(key);
-        } catch (JSONException ex) {
-            config.put(key, def);
-            return def;
-        }
+        return config.optString(key, def);
     }
 
     public int getInt(String key) {
-        return getInt(key, 0);
+        return config.optInt(key);
     }
 
     public int getInt(String key, int def) {
-        try {
-            return config.getInt(key);
-        } catch (JSONException ex) {
-            config.put(key, def);
-            return def;
-        }
+        return config.optInt(key, def);
     }
 
     public double getDouble(String key) {
-        return getDouble(key, 0);
+        return config.optDouble(key);
     }
 
     public double getDouble(String key, double def) {
-        try {
-            return config.getDouble(key);
-        } catch (JSONException ex) {
-            config.put(key, def);
-            return def;
-        }
+        return config.optDouble(key, def);
     }
 
     public boolean getBoolean(String key) {
-        return getBoolean(key, false);
+        return config.optBoolean(key);
     }
 
     public boolean getBoolean(String key, boolean def) {
-        try {
-            return config.getBoolean(key);
-        } catch (JSONException ex) {
-            config.put(key, def);
-            return def;
-        }
+        return config.optBoolean(key, def);
     }
 
     public JSONArray getList(String key) {
-        try {
-            return config.getJSONArray(key);
-        } catch (JSONException ex) {
-            JSONArray array = new JSONArray();
+        JSONArray array = config.optJSONArray(key);
+        if (array == null) {
+            array = new JSONArray();
             config.put(key, array);
-            return array;
         }
+        return array;
     }
 
     public JSONObject getObject(String key) {
-        try {
-            return config.getJSONObject(key);
-        } catch (JSONException ex) {
-            JSONObject obj = new JSONObject();
-            config.put(key, obj);
-            return obj;
+        JSONObject object = config.optJSONObject(key);
+        if (object == null) {
+            object = new JSONObject();
+            config.put(key, object);
         }
+        return object;
     }
 
     public void set(String key, String value) {
