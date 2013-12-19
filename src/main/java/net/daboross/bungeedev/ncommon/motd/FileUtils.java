@@ -24,9 +24,6 @@ import java.util.List;
 import java.util.logging.Level;
 import net.md_5.bungee.api.plugin.Plugin;
 
-/**
- *
- */
 public class FileUtils {
 
     private final Plugin plugin;

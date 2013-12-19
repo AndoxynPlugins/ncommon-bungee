@@ -28,7 +28,6 @@ import net.daboross.bungeedev.ncommon.commands.WICommand;
 import net.daboross.bungeedev.ncommon.config.AliasConfig;
 import net.daboross.bungeedev.ncommon.config.SharedConfig;
 import net.daboross.bungeedev.ncommon.listeners.MaintenancePing;
-import net.daboross.bungeedev.ncommon.listeners.PingStatistics;
 import net.daboross.bungeedev.ncommon.listeners.PlayerListener;
 import net.daboross.bungeedev.ncommon.motd.MOTDConfig;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -67,9 +66,6 @@ public final class NCommonPlugin extends Plugin {
         pm.registerCommand(this, new AliasReloadCommand(this));
         pm.registerListener(this, new PlayerListener(this));
         pm.registerListener(this, new MaintenancePing(config));
-        PingStatistics stats = new PingStatistics(config);
-        pm.registerCommand(this, stats);
-        pm.registerListener(this, stats);
         pm.registerListener(this, aliasConfig);
     }
 

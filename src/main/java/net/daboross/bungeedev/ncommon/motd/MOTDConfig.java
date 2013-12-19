@@ -24,9 +24,6 @@ import java.util.logging.Level;
 import net.daboross.bungeedev.ncommon.NCommonPlugin;
 import net.md_5.bungee.api.ChatColor;
 
-/**
- *
- */
 public class MOTDConfig {
 
     private final FileUtils fileUtils;

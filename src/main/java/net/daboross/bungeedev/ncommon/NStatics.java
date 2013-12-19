@@ -16,9 +16,6 @@
  */
 package net.daboross.bungeedev.ncommon;
 
-/**
- *
- */
 public class NStatics {
 
     private static NCommonPlugin plugin;

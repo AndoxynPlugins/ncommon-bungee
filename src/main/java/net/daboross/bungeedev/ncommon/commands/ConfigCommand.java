@@ -16,7 +16,6 @@
  */
 package net.daboross.bungeedev.ncommon.commands;
 
-import java.util.Arrays;
 import net.daboross.bungeedev.ncommon.ColorList;
 import net.daboross.bungeedev.ncommon.config.SharedConfig;
 import net.md_5.bungee.api.CommandSender;

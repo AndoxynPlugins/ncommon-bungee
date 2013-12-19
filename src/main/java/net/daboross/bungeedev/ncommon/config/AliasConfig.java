@@ -54,6 +54,7 @@ public class AliasConfig implements Listener {
                     while ((line = bf.readLine()) != null) {
                         lineNum++;
                         for (String l : line.split("[^\\\\],")) {
+
                             String[] aliasAndResult = l.split("#", 2);
                             if (aliasAndResult.length < 2) {
                                 plugin.getLogger().log(Level.WARNING, "[AliasConfig] Failed to parse line " + lineNum + ", \"" + line + "\", alias \"" + l.trim() + "\": Alias does not contain '#'");
