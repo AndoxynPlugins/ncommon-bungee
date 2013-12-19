@@ -53,7 +53,7 @@ public class AliasConfig implements Listener {
                     int lineNum = 0;
                     while ((line = bf.readLine()) != null) {
                         lineNum++;
-                        for (String l : line.split("[^\\\\],")) {
+                        for (String l : line.split(",")) {
 
                             String[] aliasAndResult = l.split("#", 2);
                             if (aliasAndResult.length < 2) {
