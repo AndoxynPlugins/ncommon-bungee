@@ -23,9 +23,9 @@ public class CommandAlias {
     private final int requiredLength;
 
     public CommandAlias(String required, String replace) {
-        this.required = required.trim().toLowerCase();
+        this.required = "/" + required.trim().toLowerCase();
         this.requiredLength = this.required.length();
-        this.replace = replace.trim();
+        this.replace = "/" + replace.trim();
     }
 
     public String getFullReplacement(String message) {
