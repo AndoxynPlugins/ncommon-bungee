@@ -4,22 +4,18 @@ import java.net.InetSocketAddress;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import net.daboross.bungeedev.ncommon.config.SharedConfig;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.NewServerPing;
 import net.md_5.bungee.api.NewServerPing.Players;
 import net.md_5.bungee.api.NewServerPing.Protocol;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
-import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.event.EventHandler;
 
 @RequiredArgsConstructor
 public class MaintenancePing implements Listener {
 
-    private static final String KICK = ChatColor.translateAlternateColorCodes('&', "&4N&5L&4M&5C&e is down for maintenance.\n&eWe'll be back soon!");
-    private static final String DEF_PING1 = ChatColor.translateAlternateColorCodes('&', "&2 < &4N&5L&4M&5C&2 >");
-    private static final String DEF_PING2 = ChatColor.translateAlternateColorCodes('&', "&2 < &4N&5L&4M&5C&2 | &4Check &cwww.nlmc.pw&4 for more info. &2 >");
     private final SharedConfig config;
     private final Random r = new Random();
 
@@ -27,14 +23,14 @@ public class MaintenancePing implements Listener {
     public void onLogin(LoginEvent evt) {
         if (config.getBoolean("ping.maintenance", false)) {
             evt.setCancelled(true);
-            evt.setCancelReason(config.getString("maintenance.kick", KICK));
+            evt.setCancelReason(config.getString("maintenance.kick", ""));
         }
     }
 
     @EventHandler
     public void onPing(ProxyPingEvent evt) {
         NewServerPing newPing = evt.getNewResponse();
-        ServerPing ping = evt.getResponse();
+        ServerPing oldPing = evt.getResponse();
         String version;
         int protocolVersion;
         String motd;
@@ -42,21 +38,21 @@ public class MaintenancePing implements Listener {
             version = newPing.getVersion().getName();
             protocolVersion = newPing.getVersion().getProtocol();
         } else {
-            version = ping.getGameVersion();
-            protocolVersion = ping.getProtocolVersion();
+            version = oldPing.getGameVersion();
+            protocolVersion = oldPing.getProtocolVersion();
         }
         String[] descriptions;
         InetSocketAddress hostAddress = evt.getConnection().getVirtualHost();
         String host = hostAddress == null ? null : hostAddress.getHostString();
         if (host != null && !host.contains("nlmc")) {
-            descriptions = config.getString("ping.notusingnlmc", DEF_PING2).split("\n");
+            descriptions = config.getString("ping.notusingnlmc", "").split("\n");
         } else if (config.getBoolean("ping.maintenance", false)) {
-            String[] versions = config.getString("ping.version", "1.7.5").split("\n");
+            String[] versions = config.getString("ping.version", "1.7.2").split("\n");
             version = versions[r.nextInt(versions.length)];
             protocolVersion = Integer.MAX_VALUE;
-            descriptions = config.getString("ping.ping2", DEF_PING2).split("\n");
+            descriptions = config.getString("ping.ping2", "").split("\n");
         } else {
-            descriptions = config.getString("ping.ping1", DEF_PING1).split("\n");
+            descriptions = config.getString("ping.ping1", "").split("\n");
         }
         motd = descriptions[r.nextInt(descriptions.length)];
         if (evt.isNewProtocol()) {

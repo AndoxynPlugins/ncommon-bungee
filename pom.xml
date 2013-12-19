@@ -38,10 +38,6 @@
 
     <repositories>
         <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </repository>
-        <repository>
             <id>repo-daboross-net</id>
             <url>http://repo.daboross.net/</url>
         </repository>
