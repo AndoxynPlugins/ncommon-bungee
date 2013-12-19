@@ -35,4 +35,9 @@ public class CommandAlias {
             return message;
         }
     }
+
+    @Override
+    public String toString() {
+        return replace;
+    }
 }
