@@ -51,6 +51,7 @@ public final class NCommonPlugin extends Plugin {
 
     @Override
     public void onEnable() {
+        NStatics.setPlugin(this);
         try {
             config = new SharedConfig(this);
         } catch (IOException ex) {
@@ -90,5 +91,6 @@ public final class NCommonPlugin extends Plugin {
         } catch (IOException ex) {
             getLogger().log(Level.SEVERE, "SharedConfig", ex);
         }
+        NStatics.setPlugin(null);
     }
 }
