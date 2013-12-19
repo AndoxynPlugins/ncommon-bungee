@@ -17,8 +17,12 @@
 package net.daboross.bungeedev.ncommon;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import lombok.Getter;
+import net.daboross.bukkitdev.mysqlmap.SQLConnectionInfo;
+import net.daboross.bukkitdev.mysqlmap.SQLDatabaseConnection;
+import net.daboross.bukkitdev.mysqlmap.api.DatabaseConnection;
 import net.daboross.bungeedev.ncommon.commands.AliasReloadCommand;
 import net.daboross.bungeedev.ncommon.commands.ConfigCommand;
 import net.daboross.bungeedev.ncommon.commands.ListCommand;
@@ -42,9 +46,17 @@ public final class NCommonPlugin extends Plugin {
     private SharedConfig config;
     @Getter
     private AliasConfig aliasConfig;
+    @Getter
+    private DatabaseConnection database;
 
     @Override
     public void onEnable() {
+        try {
+            config = new SharedConfig(this);
+        } catch (IOException ex) {
+            getLogger().log(Level.SEVERE, "SharedConfig", ex);
+            return;
+        }
         motd = new MOTDConfig(this);
         try {
             aliasConfig = new AliasConfig(this);
@@ -53,11 +65,11 @@ public final class NCommonPlugin extends Plugin {
         }
         PluginManager pm = getProxy().getPluginManager();
         getProxy().registerChannel("NCommon");
+        SQLConnectionInfo info = new SQLConnectionInfo(config.getString("sql.host"), config.getInt("sql.port"), config.getString("sql.database"), config.getString("sql.username"), config.getString("sql.password"));
         try {
-            config = new SharedConfig(this);
-        } catch (IOException ex) {
-            getLogger().log(Level.SEVERE, "SharedConfig", ex);
-            return;
+            database = new SQLDatabaseConnection(this, info);
+        } catch (SQLException ex) {
+            getLogger().log(Level.WARNING, "Failed to connect to database", ex);
         }
         pm.registerCommand(this, new ConfigCommand(config));
         pm.registerCommand(this, new ListCommand());
@@ -65,11 +77,7 @@ public final class NCommonPlugin extends Plugin {
         pm.registerCommand(this, new WICommand());
         pm.registerCommand(this, new LsCommand());
         pm.registerCommand(this, new AliasReloadCommand(this));
-        try {
-            pm.registerCommand(this, new SQLMapTestCommand(this));
-        } catch (Exception ex) {
-            getLogger().log(Level.WARNING, "Couldn't init connection", ex);
-        }
+        pm.registerCommand(this, new SQLMapTestCommand(this));
         pm.registerListener(this, new PlayerListener(this));
         pm.registerListener(this, new MaintenancePing(config));
         pm.registerListener(this, aliasConfig);

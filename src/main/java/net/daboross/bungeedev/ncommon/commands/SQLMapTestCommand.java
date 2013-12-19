@@ -16,14 +16,10 @@
  */
 package net.daboross.bungeedev.ncommon.commands;
 
-import net.daboross.bukkitdev.mysqlmap.SQLConnectionInfo;
-import net.daboross.bukkitdev.mysqlmap.SQLDatabaseConnection;
-import net.daboross.bukkitdev.mysqlmap.api.DatabaseConnection;
 import net.daboross.bukkitdev.mysqlmap.api.MapTable;
 import net.daboross.bukkitdev.mysqlmap.api.ResultRunnable;
 import net.daboross.bungeedev.ncommon.ColorList;
 import net.daboross.bungeedev.ncommon.NCommonPlugin;
-import net.daboross.bungeedev.ncommon.config.SharedConfig;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
@@ -32,12 +28,9 @@ public class SQLMapTestCommand extends Command {
 
     private final MapTable<String, String> table;
 
-    public SQLMapTestCommand(NCommonPlugin plugin) throws Exception {
+    public SQLMapTestCommand(NCommonPlugin plugin) {
         super("sqltest");
-        SharedConfig c = plugin.getConfig();
-        SQLConnectionInfo info = new SQLConnectionInfo(c.getString("sql.host"), c.getInt("sql.port"), c.getString("sql.database"), c.getString("sql.username"), c.getString("sql.password"));
-        DatabaseConnection connection = new SQLDatabaseConnection(plugin, info);
-        this.table = connection.getStringToStringTable("such_sql");
+        this.table = plugin.getDatabase().getStringToStringTable("sql_test");
     }
 
     @Override
