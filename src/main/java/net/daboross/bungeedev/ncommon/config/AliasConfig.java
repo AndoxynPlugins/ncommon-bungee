@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -33,6 +34,7 @@ public class AliasConfig implements Listener {
 
     public final File configFile;
     private final Map<String, CommandAlias> aliases = new HashMap<>();
+    private final Map<String, Map<String, CommandAlias>> perServer = new HashMap<>();
     private final Plugin plugin;
 
     public AliasConfig(Plugin p) throws IOException {
@@ -46,31 +48,41 @@ public class AliasConfig implements Listener {
     }
 
     private void loadConfig() throws IOException {
-        try (FileInputStream fileInputStream = new FileInputStream(configFile)) {
+        loadAliasFile(configFile, aliases);
+        plugin.getLogger().log(Level.INFO, "Loaded aliases. (" + aliases + ")");
+        for (String serverName : plugin.getProxy().getServers().keySet()) {
+            File aliasFile = new File(plugin.getDataFolder(), "aliases-" + serverName + ".txt");
+            Map<String, CommandAlias> aliasMap = new HashMap<>();
+            perServer.put(serverName, aliasMap);
+            if (aliasFile.exists()) {
+                loadAliasFile(aliasFile, aliasMap);
+                plugin.getLogger().log(Level.INFO, "Loaded aliases for server " + serverName + ". (" + aliasMap + ")");
+            }
+        }
+    }
+
+    private void loadAliasFile(File file, Map<String, CommandAlias> into) throws IOException {
+        try (FileInputStream fileInputStream = new FileInputStream(file)) {
             try (InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream)) {
                 try (BufferedReader bf = new BufferedReader(inputStreamReader)) {
                     String line;
-                    int lineNum = 0;
                     while ((line = bf.readLine()) != null) {
-                        lineNum++;
                         for (String l : line.split(",")) {
-
                             String[] aliasAndResult = l.split("#", 2);
                             if (aliasAndResult.length < 2) {
-                                plugin.getLogger().log(Level.WARNING, "[AliasConfig] Failed to parse line " + lineNum + ", \"" + line + "\", alias \"" + l.trim() + "\": Alias does not contain '#'");
                                 continue;
                             }
-                            aliases.put(aliasAndResult[0].split(" ", 2)[0].trim().toLowerCase(), new CommandAlias(aliasAndResult[0], aliasAndResult[1]));
+                            into.put(aliasAndResult[0].split(" ", 2)[0].trim().toLowerCase(), new CommandAlias(aliasAndResult[0], aliasAndResult[1]));
                         }
                     }
                 }
             }
         }
-        plugin.getLogger().log(Level.INFO, "Loaded aliases: " + aliases);
     }
 
     public void reloadConfig() {
         aliases.clear();
+        perServer.clear();
         try {
             loadConfig();
         } catch (IOException ex) {
@@ -80,10 +92,16 @@ public class AliasConfig implements Listener {
 
     @EventHandler
     public void onChat(ChatEvent e) {
-        if (!e.getMessage().startsWith("/")) return;
-        CommandAlias alias = aliases.get(e.getMessage().split(" ", 2)[0].trim().substring(1).toLowerCase());
+        if (!e.getMessage().startsWith("/") || !(e.getSender() instanceof ProxiedPlayer)) return;
+        String preparedMessage = e.getMessage().split(" ", 2)[0].trim().substring(1).toLowerCase();
+        CommandAlias alias = aliases.get(preparedMessage);
         if (alias != null) {
             e.setMessage(alias.getFullReplacement(e.getMessage()));
+        } else {
+            alias = perServer.get(((ProxiedPlayer) e.getSender()).getServer().getInfo().getName()).get(preparedMessage);
+            if (alias != null) {
+                e.setMessage(alias.getFullReplacement(e.getMessage()));
+            }
         }
     }
 }
