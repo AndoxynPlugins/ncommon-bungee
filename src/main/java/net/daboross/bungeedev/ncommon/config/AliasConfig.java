@@ -37,7 +37,7 @@ public class AliasConfig implements Listener {
 
     public AliasConfig(Plugin p) throws IOException {
         plugin = p;
-        configFile = new File(p.getDataFolder(), "alias-config.json");
+        configFile = new File(p.getDataFolder(), "aliases.txt");
         if (!configFile.exists()) {
             configFile.createNewFile();
         } else {
