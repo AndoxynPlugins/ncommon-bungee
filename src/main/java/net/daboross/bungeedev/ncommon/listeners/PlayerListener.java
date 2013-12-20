@@ -44,7 +44,7 @@ public class PlayerListener implements Listener {
         plugin.getProxy().broadcast(message);
         ConnectorUtils.consoleMessage(message);
         ProxiedPlayer p = evt.getPlayer();
-        for (String line : plugin.getMotd().getConfig()) {
+        for (String line : plugin.getMotd().getData()) {
             p.sendMessage(line);
         }
     }

@@ -17,6 +17,9 @@
 package net.daboross.bungeedev.ncommon.motd;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,25 +29,44 @@ import net.md_5.bungee.api.ChatColor;
 
 public class MOTDConfig {
 
-    private final FileUtils fileUtils;
-    private final File configFile;
-    private final List<String> config;
+    private final NCommonPlugin plugin;
+    private final List<String> data;
+    private final File dataFile;
 
     public MOTDConfig(NCommonPlugin plugin) {
-        this.fileUtils = new FileUtils(plugin);
-        configFile = new File(new File(plugin.getDataFolder().getParentFile(), "MOTD"), "motd.txt");
-        if (configFile.exists()) {
-            config = fileUtils.readFile(configFile);
-            for (int i = 0; i < config.size(); i++) {
-                config.set(i, ChatColor.translateAlternateColorCodes('&', config.get(i)));
+        this.plugin = plugin;
+        dataFile = new File(plugin.getDataFolder(), "motd.txt");
+        data = new ArrayList<>();
+        load();
+    }
+
+    private void load() {
+        if (dataFile.exists()) {
+            List<String> tempData;
+            try {
+                tempData = Files.readAllLines(dataFile.toPath(), Charset.forName("UTF-8"));
+            } catch (IOException ex) {
+                plugin.getLogger().log(Level.WARNING, "Failed to read " + dataFile.getAbsolutePath(), ex);
+                return;
+            }
+            for (String line : tempData) {
+                data.add(ChatColor.translateAlternateColorCodes('&', line));
             }
         } else {
-            plugin.getLogger().log(Level.WARNING, "You have no {0}", configFile.getAbsolutePath());
-            config = new ArrayList<>();
+            try {
+                dataFile.createNewFile();
+            } catch (IOException e) {
+                plugin.getLogger().log(Level.WARNING, "IOException creating new file", e);
+            }
         }
     }
 
-    public List<String> getConfig() {
-        return Collections.unmodifiableList(config);
+    public void reload() {
+        data.clear();
+        load();
+    }
+
+    public List<String> getData() {
+        return Collections.unmodifiableList(data);
     }
 }

@@ -23,10 +23,10 @@ import lombok.Getter;
 import net.daboross.bungeedev.mysqlmap.SQLConnectionInfo;
 import net.daboross.bungeedev.mysqlmap.SQLDatabaseConnection;
 import net.daboross.bungeedev.mysqlmap.api.DatabaseConnection;
-import net.daboross.bungeedev.ncommon.commands.AliasReloadCommand;
 import net.daboross.bungeedev.ncommon.commands.ConfigCommand;
 import net.daboross.bungeedev.ncommon.commands.ListCommand;
 import net.daboross.bungeedev.ncommon.commands.LsCommand;
+import net.daboross.bungeedev.ncommon.commands.NCommonReloadCommand;
 import net.daboross.bungeedev.ncommon.commands.SQLMapTestCommand;
 import net.daboross.bungeedev.ncommon.commands.WCommand;
 import net.daboross.bungeedev.ncommon.commands.WICommand;
@@ -51,7 +51,6 @@ public final class NCommonPlugin extends Plugin {
 
     @Override
     public void onEnable() {
-        NStatics.setPlugin(this);
         try {
             config = new SharedConfig(this);
         } catch (IOException ex) {
@@ -77,7 +76,7 @@ public final class NCommonPlugin extends Plugin {
         pm.registerCommand(this, new WCommand());
         pm.registerCommand(this, new WICommand());
         pm.registerCommand(this, new LsCommand());
-        pm.registerCommand(this, new AliasReloadCommand(this));
+        pm.registerCommand(this, new NCommonReloadCommand(this));
         pm.registerCommand(this, new SQLMapTestCommand(this));
         pm.registerListener(this, new PlayerListener(this));
         pm.registerListener(this, new MaintenancePing(config));
@@ -94,6 +93,5 @@ public final class NCommonPlugin extends Plugin {
         getLogger().log(Level.INFO, "Waiting for SQL to finish.");
         database.waitTillAllDone();
         getLogger().log(Level.INFO, "Done waiting, resuming shutdown.");
-        NStatics.setPlugin(null);
     }
 }

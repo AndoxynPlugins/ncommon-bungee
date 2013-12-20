@@ -21,22 +21,20 @@ import net.daboross.bungeedev.ncommon.NCommonPlugin;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 
-public class AliasReloadCommand extends Command {
+public class NCommonReloadCommand extends Command {
 
     private final NCommonPlugin plugin;
 
-    public AliasReloadCommand(NCommonPlugin plugin) {
-        super("reload-alias");
+    public NCommonReloadCommand(NCommonPlugin plugin) {
+        super("nreload", "ncommon.reloadalias");
         this.plugin = plugin;
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (sender.hasPermission("ncommon.reloadalias")) {
-            plugin.getAliasConfig().reloadConfig();
-            sender.sendMessage(ColorList.REG + "Aliases reloaded.");
-        } else {
-            sender.sendMessage(ColorList.ERR + "You do not have permission to execute this command.");
-        }
+        plugin.getAliasConfig().reloadConfig();
+        sender.sendMessage(ColorList.REG + "Aliases reloaded.");
+        plugin.getMotd().reload();
+        sender.sendMessage(ColorList.REG + "Motd reloaded.");
     }
 }
