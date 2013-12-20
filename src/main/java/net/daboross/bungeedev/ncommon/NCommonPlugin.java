@@ -32,7 +32,7 @@ import net.daboross.bungeedev.ncommon.commands.WCommand;
 import net.daboross.bungeedev.ncommon.commands.WICommand;
 import net.daboross.bungeedev.ncommon.config.AliasConfig;
 import net.daboross.bungeedev.ncommon.config.SharedConfig;
-import net.daboross.bungeedev.ncommon.listeners.MaintenancePing;
+import net.daboross.bungeedev.ncommon.listeners.PingListener;
 import net.daboross.bungeedev.ncommon.listeners.PlayerListener;
 import net.daboross.bungeedev.ncommon.motd.MOTDConfig;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -79,7 +79,7 @@ public final class NCommonPlugin extends Plugin {
         pm.registerCommand(this, new NCommonReloadCommand(this));
         pm.registerCommand(this, new SQLMapTestCommand(this));
         pm.registerListener(this, new PlayerListener(this));
-        pm.registerListener(this, new MaintenancePing(config));
+        pm.registerListener(this, new PingListener(config));
         pm.registerListener(this, aliasConfig);
     }
 

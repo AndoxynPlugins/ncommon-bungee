@@ -14,7 +14,7 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
 @RequiredArgsConstructor
-public class MaintenancePing implements Listener {
+public class PingListener implements Listener {
 
     private final SharedConfig config;
     private final Random r = new Random();
