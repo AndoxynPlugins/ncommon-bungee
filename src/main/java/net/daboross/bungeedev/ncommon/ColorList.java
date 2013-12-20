@@ -85,17 +85,9 @@ public final class ColorList {
      */
     public static final String ERR_ARGS = ChatColor.RED.toString();
     /**
-     * This is the color that the server's name should be displayed in.
-     */
-    public static final String SERVER = ChatColor.AQUA.toString();
-    /**
      * This is the color for the divider slash in various places.
      * <br>In 'player/nick', '/' would be this color.
      */
     public static final String DIVIDER = ChatColor.DARK_GRAY.toString();
-    /**
-     * This is the color that broadcasts should be.
-     */
-    public static final String BROADCAST = ChatColor.GREEN.toString();
     public static final String PREFIX_Q = ChatColor.DARK_GRAY + "[" + ChatColor.DARK_RED + "$" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY;
 }
