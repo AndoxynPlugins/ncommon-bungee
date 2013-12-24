@@ -16,6 +16,7 @@
  */
 package net.daboross.bungeedev.ncommon.listeners;
 
+import java.util.logging.Level;
 import net.daboross.bungeedev.mysqlmap.api.MapTable;
 import net.daboross.bungeedev.mysqlmap.api.ResultRunnable;
 import net.daboross.bungeedev.ncommon.NCommonPlugin;
@@ -36,7 +37,7 @@ public class NBBanListener implements Listener {
     @EventHandler
     public void onPreLogin(final LoginEvent evt) {
         if (!evt.isCancelled()) {
-            final String name = evt.getConnection().getName();
+            final String name = evt.getConnection().getName().toLowerCase();
             evt.registerIntent(plugin);
             banTable.get(name, new ResultRunnable<String>() {
                 @Override
@@ -44,6 +45,7 @@ public class NBBanListener implements Listener {
                     if (value != null) {
                         evt.setCancelled(true);
                         evt.setCancelReason(value);
+                        plugin.getLogger().log(Level.INFO, String.format("Stopped %s from joining", name));
                     }
                     evt.completeIntent(plugin);
                 }
