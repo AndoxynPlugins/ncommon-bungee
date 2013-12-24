@@ -68,12 +68,12 @@ public final class NCommonPlugin extends Plugin {
         }
         PluginManager pm = getProxy().getPluginManager();
         getProxy().registerChannel("NCommon");
-        String host = config.getString("sql.host");
-        int port = config.getInt("sql.port");
-        String username = config.getString("sql.username");
-        String password = config.getString("sql.password");
-        String databaseName = config.getString("sql.database");
-        if (host == null || username == null || password == null || databaseName == null) {
+        String host = config.getString("sql.host", null);
+        int port = config.getInt("sql.port", -1);
+        String username = config.getString("sql.username", null);
+        String password = config.getString("sql.password", null);
+        String databaseName = config.getString("sql.database", null);
+        if (host == null || username == null || password == null || databaseName == null || port == -1) {
             getLogger().log(Level.WARNING, "SQL Info incomplete");
         } else {
             SQLConnectionInfo info = new SQLConnectionInfo(host, port, databaseName, username, password);
