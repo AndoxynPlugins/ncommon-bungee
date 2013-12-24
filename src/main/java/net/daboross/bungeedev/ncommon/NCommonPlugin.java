@@ -107,8 +107,10 @@ public final class NCommonPlugin extends Plugin {
         } catch (IOException ex) {
             getLogger().log(Level.SEVERE, "SharedConfig", ex);
         }
-        getLogger().log(Level.INFO, "Waiting for SQL to finish.");
-        database.waitTillAllDone();
-        getLogger().log(Level.INFO, "Done waiting, resuming shutdown.");
+        if (database != null) {
+            getLogger().log(Level.INFO, "Waiting for SQL to finish.");
+            database.waitTillAllDone();
+            getLogger().log(Level.INFO, "Done waiting, resuming shutdown.");
+        }
     }
 }
