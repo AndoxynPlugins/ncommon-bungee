@@ -19,14 +19,47 @@ package net.daboross.bungeedev.ncommon.utils;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 import lombok.NonNull;
+import net.daboross.bungeedev.mysqlmap.api.ResultRunnable;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
+import net.md_5.bungee.api.event.PluginMessageEvent;
+import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.event.EventHandler;
 
-public class ConnectorUtils {
+public class ConnectorUtils implements Listener {
+
+    private static final Map<UUID, ResultRunnable<Boolean>> permissionChecks = new HashMap<>();
+
+    public static void runWithPermission(ProxiedPlayer player, String permission, ResultRunnable<Boolean> runWithResult) {
+        UUID uuid = UUID.randomUUID();
+        byte[] data;
+        try {
+            ByteArrayOutputStream b = new ByteArrayOutputStream();
+            try (DataOutputStream out = new DataOutputStream(b)) {
+                out.writeUTF("SendWithPermission");
+                out.writeUTF(permission);
+                out.writeUTF(uuid.toString());
+            }
+            data = b.toByteArray();
+        } catch (IOException ex) {
+            ProxyServer.getInstance().getLogger().log(Level.SEVERE, "Error writing data to byte array", ex);
+            return;
+        }
+        permissionChecks.put(uuid, runWithResult);
+        player.getServer().sendData("NCommon", data);
+    }
+
+    @EventHandler
+    public void onPluginMessage(PluginMessageEvent evt) {
+        ProxyServer.getInstance().getLogger().log(Level.INFO, "PluginMessageEvent " + evt);
+    }
 
     public static void setDisplayName(@NonNull Server server, @NonNull String name) {
         sendMessageServer(server, "SetDisplayName", name);

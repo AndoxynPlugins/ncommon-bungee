@@ -37,6 +37,7 @@ import net.daboross.bungeedev.ncommon.listeners.NBBanListener;
 import net.daboross.bungeedev.ncommon.listeners.PingListener;
 import net.daboross.bungeedev.ncommon.listeners.PlayerListener;
 import net.daboross.bungeedev.ncommon.motd.MOTDConfig;
+import net.daboross.bungeedev.ncommon.utils.ConnectorUtils;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 
@@ -85,6 +86,7 @@ public final class NCommonPlugin extends Plugin {
         pm.registerListener(this, new PlayerListener(this));
         pm.registerListener(this, new PingListener(config));
         pm.registerListener(this, aliasConfig);
+        pm.registerListener(this, new ConnectorUtils());
     }
 
     @Override
