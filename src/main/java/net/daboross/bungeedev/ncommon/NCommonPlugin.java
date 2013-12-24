@@ -68,11 +68,20 @@ public final class NCommonPlugin extends Plugin {
         }
         PluginManager pm = getProxy().getPluginManager();
         getProxy().registerChannel("NCommon");
-        SQLConnectionInfo info = new SQLConnectionInfo(config.getString("sql.host"), config.getInt("sql.port"), config.getString("sql.database"), config.getString("sql.username"), config.getString("sql.password"));
-        try {
-            database = new SQLDatabaseConnection(this, info);
-        } catch (SQLException ex) {
-            getLogger().log(Level.WARNING, "Failed to connect to database", ex);
+        String host = config.getString("sql.host");
+        int port = config.getInt("sql.port");
+        String username = config.getString("sql.username");
+        String password = config.getString("sql.password");
+        String databaseName = config.getString("sql.database");
+        if (host == null || username == null || password == null || databaseName == null) {
+            getLogger().log(Level.WARNING, "SQL Info incomplete");
+        } else {
+            SQLConnectionInfo info = new SQLConnectionInfo(host, port, databaseName, username, password);
+            try {
+                database = new SQLDatabaseConnection(this, info);
+            } catch (SQLException ex) {
+                getLogger().log(Level.WARNING, "Failed to connect to database", ex);
+            }
         }
         pm.registerCommand(this, new ConfigCommand(config));
         pm.registerCommand(this, new ListCommand());
@@ -80,13 +89,15 @@ public final class NCommonPlugin extends Plugin {
         pm.registerCommand(this, new WICommand());
         pm.registerCommand(this, new LsCommand());
         pm.registerCommand(this, new NCommonReloadCommand(this));
-        pm.registerCommand(this, new SQLMapTestCommand(this));
-        pm.registerCommand(this, new NBBanCommand(this));
-        pm.registerListener(this, new NBBanListener(this));
         pm.registerListener(this, new PlayerListener(this));
         pm.registerListener(this, new PingListener(config));
         pm.registerListener(this, aliasConfig);
         pm.registerListener(this, new ConnectorUtils());
+        if (database != null) {
+            pm.registerCommand(this, new SQLMapTestCommand(this));
+            pm.registerCommand(this, new NBBanCommand(this));
+            pm.registerListener(this, new NBBanListener(this));
+        }
     }
 
     @Override
