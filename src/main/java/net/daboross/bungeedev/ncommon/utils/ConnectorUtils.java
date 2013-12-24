@@ -39,7 +39,7 @@ public class ConnectorUtils implements Listener {
 
     private static final Map<UUID, ResultRunnable<Boolean>> permissionChecks = new HashMap<>();
 
-    public static void runWithPermission(ProxiedPlayer player, String permission, ResultRunnable<Boolean> runWithResult) {
+    public static void runWithPermission(Server server, String permission, ResultRunnable<Boolean> runWithResult) {
         UUID uuid = UUID.randomUUID();
         byte[] data;
         try {
@@ -55,7 +55,7 @@ public class ConnectorUtils implements Listener {
             return;
         }
         permissionChecks.put(uuid, runWithResult);
-        player.getServer().sendData("NCommon", data);
+        server.sendData("NCommon", data);
     }
 
     @EventHandler

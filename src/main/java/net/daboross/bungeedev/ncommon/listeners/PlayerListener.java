@@ -54,7 +54,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPostJoin(ServerConnectedEvent evt) {
-        ConnectorUtils.runWithPermission(evt.getPlayer(), "ncommon.test", new ResultRunnable<Boolean>() {
+        ConnectorUtils.runWithPermission(evt.getServer(), "ncommon.test", new ResultRunnable<Boolean>() {
             @Override
             public void runWithResult(Boolean value) {
                 plugin.getLogger().log(Level.INFO, "Result run, result is " + value);
