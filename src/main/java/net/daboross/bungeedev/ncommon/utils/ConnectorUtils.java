@@ -45,7 +45,7 @@ public class ConnectorUtils implements Listener {
         try {
             ByteArrayOutputStream b = new ByteArrayOutputStream();
             try (DataOutputStream out = new DataOutputStream(b)) {
-                out.writeUTF("SendWithPermission");
+                out.writeUTF("PermissionCheck");
                 out.writeUTF(permission);
                 out.writeUTF(uuid.toString());
             }
@@ -60,16 +60,27 @@ public class ConnectorUtils implements Listener {
 
     @EventHandler
     public void onPluginMessage(PluginMessageEvent evt) {
-        StringBuilder b = new StringBuilder();
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(evt.getData())) {
-            try (DataInputStream in = new DataInputStream(bais)) {
-                while (true) {
-                    b.append(in.readUTF());
+        if ((evt.getSender() instanceof Server) && (evt.getReceiver() instanceof ProxiedPlayer)) {
+            try (ByteArrayInputStream bais = new ByteArrayInputStream(evt.getData())) {
+                try (DataInputStream in = new DataInputStream(bais)) {
+                    try {
+                        if (!in.readUTF().equals("PermissionResult")) {
+                            return;
+                        }
+                    } catch (IOException ex) {
+                        return;
+                    }
+                    evt.setCancelled(true);
+                    UUID uuid = UUID.fromString(in.readUTF());
+                    ResultRunnable<Boolean> resultRunnable = permissionChecks.remove(uuid);
+                    if (resultRunnable != null) {
+                        resultRunnable.runWithResult(in.readBoolean());
+                    }
                 }
+            } catch (IOException ex) {
+                ProxyServer.getInstance().getLogger().log(Level.INFO, null, ex);
             }
-        } catch (IOException e) {
         }
-        ProxyServer.getInstance().getLogger().log(Level.INFO, String.format("PluginMessageEvent %s, data: %s", evt, b));
     }
 
     public static void setDisplayName(@NonNull Server server, @NonNull String name) {

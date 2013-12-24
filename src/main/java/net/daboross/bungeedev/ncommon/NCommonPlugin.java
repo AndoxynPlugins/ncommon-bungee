@@ -64,7 +64,7 @@ public final class NCommonPlugin extends Plugin {
         try {
             aliasConfig = new AliasConfig(this);
         } catch (IOException ex) {
-            getLogger().log(Level.WARNING, "Faileod to load Aliases", ex);
+            getLogger().log(Level.WARNING, "Failed to load Aliases", ex);
         }
         PluginManager pm = getProxy().getPluginManager();
         getProxy().registerChannel("NCommon");
