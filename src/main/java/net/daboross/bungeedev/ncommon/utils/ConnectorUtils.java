@@ -16,7 +16,9 @@
  */
 package net.daboross.bungeedev.ncommon.utils;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -58,7 +60,16 @@ public class ConnectorUtils implements Listener {
 
     @EventHandler
     public void onPluginMessage(PluginMessageEvent evt) {
-        ProxyServer.getInstance().getLogger().log(Level.INFO, "PluginMessageEvent " + evt);
+        StringBuilder b = new StringBuilder();
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(evt.getData())) {
+            try (DataInputStream in = new DataInputStream(bais)) {
+                while (true) {
+                    b.append(in.readUTF());
+                }
+            }
+        } catch (IOException e) {
+        }
+        ProxyServer.getInstance().getLogger().log(Level.INFO, String.format("PluginMessageEvent %s, data: %s", evt, b));
     }
 
     public static void setDisplayName(@NonNull Server server, @NonNull String name) {
