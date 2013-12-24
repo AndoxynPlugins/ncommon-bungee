@@ -25,6 +25,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
@@ -49,6 +50,10 @@ public class PlayerListener implements Listener {
         for (String line : plugin.getMotd().getData()) {
             p.sendMessage(line);
         }
+    }
+
+    @EventHandler
+    public void onPostJoin(ServerConnectedEvent evt) {
         ConnectorUtils.runWithPermission(evt.getPlayer(), "ncommon.test", new ResultRunnable<Boolean>() {
             @Override
             public void runWithResult(Boolean value) {
