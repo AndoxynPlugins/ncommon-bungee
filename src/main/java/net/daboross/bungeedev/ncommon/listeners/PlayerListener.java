@@ -16,6 +16,8 @@
  */
 package net.daboross.bungeedev.ncommon.listeners;
 
+import java.util.logging.Level;
+import net.daboross.bungeedev.mysqlmap.api.ResultRunnable;
 import net.daboross.bungeedev.ncommon.ColorList;
 import net.daboross.bungeedev.ncommon.NCommonPlugin;
 import net.daboross.bungeedev.ncommon.utils.ConnectorUtils;
@@ -47,6 +49,12 @@ public class PlayerListener implements Listener {
         for (String line : plugin.getMotd().getData()) {
             p.sendMessage(line);
         }
+        ConnectorUtils.runWithPermission(evt.getPlayer(), "ncommon.test", new ResultRunnable<Boolean>() {
+            @Override
+            public void runWithResult(Boolean value) {
+                plugin.getLogger().log(Level.INFO, "Result run, result is " + value);
+            }
+        });
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
