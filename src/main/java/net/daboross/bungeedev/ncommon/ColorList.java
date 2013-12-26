@@ -18,10 +18,6 @@ package net.daboross.bungeedev.ncommon;
 
 import net.md_5.bungee.api.ChatColor;
 
-/**
- * This is a class that holds what colors PlayerData should user for different
- * purpose.
- */
 public final class ColorList {
 
     /**
@@ -33,11 +29,6 @@ public final class ColorList {
      * this panel in the part that is explaining what the information is about).
      */
     public static final String TOP = ChatColor.DARK_GREEN.toString();
-    /**
-     * Separator at the top of a list.
-     * <br>In '-- Player Info for azdef --', '--' would be this color.
-     */
-    public static final String TOP_SEPERATOR = ChatColor.BLUE.toString();
     /**
      * This is the color for player usernames.
      * <br>In 'john did this', 'john' would be this color.
@@ -53,16 +44,6 @@ public final class ColorList {
      * <br>'/command' would be this color
      */
     public static final String CMD = ChatColor.GREEN.toString();
-    /**
-     * This is be the color for help text.
-     * <br>'this command does x' would be this color
-     */
-    public static final String HELP = ChatColor.WHITE.toString();
-    /**
-     * This is the color for subcommands.
-     * <br>in '/command sub',
-     */
-    public static final String SUBCMD = ChatColor.BLUE.toString();
     /**
      * This is the color for arguments of a command (in help messages).
      * <br>in '/command sub [player] [page]', 'player' and 'page' would be this

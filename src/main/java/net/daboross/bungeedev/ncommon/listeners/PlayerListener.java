@@ -18,7 +18,7 @@ package net.daboross.bungeedev.ncommon.listeners;
 
 import net.daboross.bungeedev.ncommon.ColorList;
 import net.daboross.bungeedev.ncommon.NCommonPlugin;
-import net.daboross.bungeedev.ncommon.utils.ConnectorUtils;
+import net.daboross.bungeedev.ncommon.utils.CUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
@@ -29,7 +29,6 @@ import net.md_5.bungee.event.EventPriority;
 
 public class PlayerListener implements Listener {
 
-    public static final String JOIN_FORMAT = ColorList.PREFIX_Q + "%s" + ChatColor.GRAY + " joined";
     public static final String LEAVE_FORMAT = ColorList.PREFIX_Q + "%s" + ChatColor.GRAY + " left";
 
     private final NCommonPlugin plugin;
@@ -40,9 +39,6 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PostLoginEvent evt) {
-        String message = String.format(JOIN_FORMAT, evt.getPlayer().getName());
-        plugin.getProxy().broadcast(message);
-        ConnectorUtils.consoleMessage(message);
         ProxiedPlayer p = evt.getPlayer();
         for (String line : plugin.getMotd().getData()) {
             p.sendMessage(line);
@@ -53,6 +49,6 @@ public class PlayerListener implements Listener {
     public void onQuit(PlayerDisconnectEvent evt) {
         String message = String.format(LEAVE_FORMAT, evt.getPlayer().getName());
         plugin.getProxy().broadcast(message);
-        ConnectorUtils.consoleMessage(message);
+        CUtils.consoleMessage(message);
     }
 }

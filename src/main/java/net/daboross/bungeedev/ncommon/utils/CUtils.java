@@ -35,28 +35,9 @@ import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-public class ConnectorUtils implements Listener {
+public class CUtils implements Listener {
 
     private static final Map<UUID, ResultRunnable<Boolean>> permissionChecks = new HashMap<>();
-
-    public static void runWithPermission(Server server, String permission, ResultRunnable<Boolean> runWithResult) {
-        UUID uuid = UUID.randomUUID();
-        byte[] data;
-        try {
-            ByteArrayOutputStream b = new ByteArrayOutputStream();
-            try (DataOutputStream out = new DataOutputStream(b)) {
-                out.writeUTF("PermissionCheck");
-                out.writeUTF(permission);
-                out.writeUTF(uuid.toString());
-            }
-            data = b.toByteArray();
-        } catch (IOException ex) {
-            ProxyServer.getInstance().getLogger().log(Level.SEVERE, "Error writing data to byte array", ex);
-            return;
-        }
-        permissionChecks.put(uuid, runWithResult);
-        server.sendData("NCommon", data);
-    }
 
     @EventHandler
     public void onPluginMessage(PluginMessageEvent evt) {
@@ -81,6 +62,25 @@ public class ConnectorUtils implements Listener {
                 ProxyServer.getInstance().getLogger().log(Level.INFO, null, ex);
             }
         }
+    }
+
+    public static void runWithPermission(Server server, String permission, ResultRunnable<Boolean> runWithResult) {
+        UUID uuid = UUID.randomUUID();
+        byte[] data;
+        try {
+            ByteArrayOutputStream b = new ByteArrayOutputStream();
+            try (DataOutputStream out = new DataOutputStream(b)) {
+                out.writeUTF("PermissionCheck");
+                out.writeUTF(permission);
+                out.writeUTF(uuid.toString());
+            }
+            data = b.toByteArray();
+        } catch (IOException ex) {
+            ProxyServer.getInstance().getLogger().log(Level.SEVERE, "Error writing data to byte array", ex);
+            return;
+        }
+        permissionChecks.put(uuid, runWithResult);
+        server.sendData("NCommon", data);
     }
 
     public static void setDisplayName(@NonNull Server server, @NonNull String name) {

@@ -20,19 +20,22 @@ import java.util.Collection;
 import java.util.Iterator;
 import net.daboross.bungeedev.ncommon.ColorList;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.Plugin;
 
 public class ListCommand extends Command {
 
-    public ListCommand() {
+    private final Plugin plugin;
+
+    public ListCommand(Plugin plugin) {
         super("list");
+        this.plugin = plugin;
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        Collection<ProxiedPlayer> onlinePlayers = ProxyServer.getInstance().getPlayers();
+        Collection<ProxiedPlayer> onlinePlayers = plugin.getProxy().getPlayers();
         if (onlinePlayers.isEmpty()) {
             sender.sendMessage(ColorList.REG + "There are no players online.");
         } else if (onlinePlayers.size() == 1) {

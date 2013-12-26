@@ -37,7 +37,7 @@ import net.daboross.bungeedev.ncommon.listeners.NBBanListener;
 import net.daboross.bungeedev.ncommon.listeners.PingListener;
 import net.daboross.bungeedev.ncommon.listeners.PlayerListener;
 import net.daboross.bungeedev.ncommon.motd.MOTDConfig;
-import net.daboross.bungeedev.ncommon.utils.ConnectorUtils;
+import net.daboross.bungeedev.ncommon.utils.CUtils;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 
@@ -84,15 +84,15 @@ public final class NCommonPlugin extends Plugin {
             }
         }
         pm.registerCommand(this, new ConfigCommand(config));
-        pm.registerCommand(this, new ListCommand());
+        pm.registerCommand(this, new ListCommand(this));
         pm.registerCommand(this, new WCommand());
-        pm.registerCommand(this, new WICommand());
-        pm.registerCommand(this, new LsCommand());
+        pm.registerCommand(this, new WICommand(this));
+        pm.registerCommand(this, new LsCommand(this));
         pm.registerCommand(this, new NCommonReloadCommand(this));
         pm.registerListener(this, new PlayerListener(this));
         pm.registerListener(this, new PingListener(config));
         pm.registerListener(this, aliasConfig);
-        pm.registerListener(this, new ConnectorUtils());
+        pm.registerListener(this, new CUtils());
         if (database != null) {
             pm.registerCommand(this, new SQLMapTestCommand(this));
             pm.registerCommand(this, new NBBanCommand(this));

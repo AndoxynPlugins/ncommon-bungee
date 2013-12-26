@@ -16,23 +16,26 @@
  */
 package net.daboross.bungeedev.ncommon.commands;
 
-import java.util.Arrays;
 import java.util.Collection;
+import net.daboross.bungeedev.ncommon.utils.NUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.Plugin;
 
 public class LsCommand extends Command {
 
-    public LsCommand() {
+    private final Plugin plugin;
+
+    public LsCommand(Plugin plugin) {
         super("ls");
+        this.plugin = plugin;
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        Collection<ProxiedPlayer> onlinePlayers = ProxyServer.getInstance().getPlayers();
+        Collection<ProxiedPlayer> onlinePlayers = plugin.getProxy().getPlayers();
         sender.sendMessage(ChatColor.GRAY + "total " + ChatColor.RED + onlinePlayers.size());
         if (onlinePlayers.isEmpty()) {
             return;
@@ -40,8 +43,8 @@ public class LsCommand extends Command {
         int maxServerLength = 0;
         int maxNameLength = 0;
         for (ProxiedPlayer player : onlinePlayers) {
-            maxNameLength = Math.max(maxNameLength, (player == null ? "null" : player.getName()).length());
-            maxServerLength = Math.max(maxServerLength, (player == null ? "null" : player.getServer().getInfo().getName()).length());
+            maxNameLength = Math.max(maxNameLength, player.getName().length());
+            maxServerLength = Math.max(maxServerLength, player.getServer().getInfo().getName().length());
         }
         for (ProxiedPlayer player : onlinePlayers) {
             sender.sendMessage(getLine(player, maxNameLength + 2, maxServerLength + 2));
@@ -49,16 +52,10 @@ public class LsCommand extends Command {
     }
 
     private String getLine(ProxiedPlayer player, int maxNameLength, int maxServerLength) {
-        String name = player == null ? "null" : player.getName();
-        String server = player == null ? "null" : player.getServer().getInfo().getName();
-        return ChatColor.WHITE + name + fillIn(maxNameLength - name.length())
-                + ChatColor.YELLOW + server + fillIn(maxServerLength - server.length())
-                + (player == null ? "null" : player.getDisplayName());
-    }
-
-    private String fillIn(int num) {
-        char[] array = new char[num];
-        Arrays.fill(array, ' ');
-        return String.valueOf(array);
+        String name = player.getName();
+        String server = player.getServer().getInfo().getName();
+        return ChatColor.WHITE + name + NUtils.spaces(maxNameLength - name.length())
+                + ChatColor.YELLOW + server + NUtils.spaces(maxServerLength - server.length())
+                + player.getDisplayName();
     }
 }

@@ -19,15 +19,18 @@ package net.daboross.bungeedev.ncommon.commands;
 import net.daboross.bungeedev.ncommon.ColorList;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.Plugin;
 
 public class WICommand extends Command {
 
-    public WICommand() {
+    private final Plugin plugin;
+
+    public WICommand(Plugin plugin) {
         super("wi");
+        this.plugin = plugin;
     }
 
     @Override
@@ -39,7 +42,7 @@ public class WICommand extends Command {
         }
         ProxiedPlayer player = null;
         String lowerCaseArg = args[0].toLowerCase();
-        for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
+        for (ProxiedPlayer p : plugin.getProxy().getPlayers()) {
             if (p.getName().toLowerCase().contains(lowerCaseArg) || ChatColor.stripColor(p.getDisplayName()).toLowerCase().contains(lowerCaseArg)) {
                 player = p;
                 break;
