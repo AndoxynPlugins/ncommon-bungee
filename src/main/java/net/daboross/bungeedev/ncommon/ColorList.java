@@ -16,24 +16,24 @@
  */
 package net.daboross.bungeedev.ncommon;
 
-import net.md_5.bungee.api.ChatColor;
+import static net.md_5.bungee.api.ChatColor.*;
 
 public final class ColorList {
 
     /**
      * This is the main color.
      */
-    public static final String REG = ChatColor.DARK_AQUA.toString();
+    public static final String REG = DARK_AQUA.toString();
     /**
      * This is the color used at the top of a list or info panel (usually use
      * this panel in the part that is explaining what the information is about).
      */
-    public static final String TOP = ChatColor.DARK_GREEN.toString();
+    public static final String TOP = DARK_GREEN.toString();
     /**
      * This is the color for player usernames.
      * <br>In 'john did this', 'john' would be this color.
      */
-    public static final String NAME = ChatColor.GREEN.toString();
+    public static final String NAME = GREEN.toString();
     /**
      * This is the color for general data information (times, dates, counts).
      * <br>'50 minutes ago' would be this color.
@@ -43,32 +43,32 @@ public final class ColorList {
      * This is the color for commands (in help messages).
      * <br>'/command' would be this color
      */
-    public static final String CMD = ChatColor.GREEN.toString();
+    public static final String CMD = GREEN.toString();
     /**
      * This is the color for arguments of a command (in help messages).
      * <br>in '/command sub [player] [page]', 'player' and 'page' would be this
      * color
      */
-    public static final String ARGS = ChatColor.AQUA.toString();
+    public static final String ARGS = AQUA.toString();
     /**
      * This is the color for arguments of a command (in help messages).
      * <br>in '/command sub [player] [page]', '[' and ']' would be this color.
      */
-    public static final String ARGS_SURROUNDER = ChatColor.DARK_AQUA.toString();
+    public static final String ARGS_SURROUNDER = DARK_AQUA.toString();
     /**
      * This is the color for messages saying that there is an error or the user
      * can't use the command.
      */
-    public static final String ERR = ChatColor.DARK_RED.toString();
+    public static final String ERR = DARK_RED.toString();
     /**
      * This is the color for the arguments that have caused an error, or are
      * illegal.
      */
-    public static final String ERR_ARGS = ChatColor.RED.toString();
+    public static final String ERR_ARGS = RED.toString();
     /**
      * This is the color for the divider slash in various places.
      * <br>In 'player/nick', '/' would be this color.
      */
-    public static final String DIVIDER = ChatColor.DARK_GRAY.toString();
-    public static final String PREFIX_Q = ChatColor.DARK_GRAY + "[" + ChatColor.DARK_RED + "$" + ChatColor.DARK_GRAY + "] " + ChatColor.GRAY;
+    public static final String DIVIDER = DARK_GRAY.toString();
+    public static final String PREFIX_Q = DARK_GRAY + "[" + DARK_RED + "$" + DARK_GRAY + "] " + GRAY;
 }
